@@ -192,13 +192,17 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-2 bg-gray-800 p-6 rounded-lg relative">
+                    <div class="lg:col-span-2 bg-gray-800 p-6 rounded-lg">
                         <h2 class="text-xl font-semibold mb-4">Visão Geral da Receita</h2>
-                        <canvas id="revenueChart"></canvas>
+                        <div class="relative h-80">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
                     </div>
-                    <div class="bg-gray-800 p-6 rounded-lg relative">
+                    <div class="bg-gray-800 p-6 rounded-lg">
                         <h2 class="text-xl font-semibold mb-4">Desempenho das Mesas</h2>
-                        <canvas id="tablesChart"></canvas>
+                         <div class="relative h-80">
+                            <canvas id="tablesChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -219,7 +223,7 @@
                  <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-white">Histórico de Aluguéis</h2>
                     <button id="add-aluguel-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
-                        <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Novo Aluguel
+                        <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Novo Aluguel / Reserva
                     </button>
                 </div>
                 <div class="bg-gray-800 rounded-lg overflow-x-auto">
@@ -254,8 +258,18 @@
                     <div class="bg-gray-800 p-6 rounded-lg"><h2 class="text-lg font-medium text-gray-300">Custos de Manutenção</h2><p id="maintenance-costs" class="text-3xl font-bold mt-2">R$ 0,00</p></div>
                 </div>
                  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                    <div class="bg-gray-800 p-6 rounded-lg relative"><h2 class="text-xl font-semibold mb-4">Faturamento por Dia</h2><canvas id="dailyRevenueChart"></canvas></div>
-                    <div class="bg-gray-800 p-6 rounded-lg relative"><h2 class="text-xl font-semibold mb-4">Receita por Mesa</h2><canvas id="revenueByTableChart"></canvas></div>
+                    <div class="bg-gray-800 p-6 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-4">Faturamento por Dia</h2>
+                        <div class="relative h-72">
+                            <canvas id="dailyRevenueChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-4">Receita por Mesa</h2>
+                        <div class="relative h-72">
+                            <canvas id="revenueByTableChart"></canvas>
+                        </div>
+                    </div>
                 </div>
                 <h2 class="text-2xl font-bold text-white mb-4">Transações Recentes</h2>
                 <div class="bg-gray-800 rounded-lg overflow-x-auto">
@@ -714,7 +728,19 @@
                     </div><button type="submit">Salvar</button></form>`;
                     break;
                 case 'cliente': title = isEditing ? 'Editar Cliente' : 'Adicionar Cliente'; formHTML = `<form id="entity-form" data-type="cliente" data-id="${entity.id||''}"><div class="space-y-4"><div><label>Nome</label><input id="nome" value="${entity.nome||''}" required></div><div><label>Contato</label><input id="contato" value="${entity.contato||''}" required></div></div><button type="submit">Salvar</button></form>`; break;
-                case 'aluguel': title = 'Novo Aluguel'; const mesasOpt = data.mesas.filter(m => m.status === 'disponivel').map(m => `<option value="${m.id}">${m.nome}</option>`).join(''); const clientesOpt = data.clientes.map(c => `<option value="${c.id}">${c.nome}</option>`).join(''); formHTML = `<form id="entity-form" data-type="aluguel"><div class="space-y-4"><div><label>Mesa</label><select id="mesaId" ${!mesasOpt?'disabled':''}>${mesasOpt||'<option>Nenhuma mesa disponível</option>'}</select></div><div><label>Cliente</label><select id="clienteId">${clientesOpt}</select></div></div><button type="submit" ${!mesasOpt?'disabled':''}>Iniciar Aluguel</button></form>`; break;
+                case 'aluguel': 
+                    title = 'Novo Aluguel / Agendamento'; 
+                    const mesasOpt = data.mesas.filter(m => m.status === 'disponivel').map(m => `<option value="${m.id}">${m.nome}</option>`).join(''); 
+                    const clientesOpt = data.clientes.map(c => `<option value="${c.id}">${c.nome}</option>`).join(''); 
+                    formHTML = `<form id="entity-form" data-type="aluguel"><div class="space-y-4">
+                        <div><label>Mesa</label><select id="mesaId" ${!mesasOpt?'disabled':''}>${mesasOpt||'<option>Nenhuma mesa disponível</option>'}</select></div>
+                        <div><label>Cliente</label><select id="clienteId">${clientesOpt}</select></div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div><label>Início</label><input id="inicio" type="datetime-local" required></div>
+                            <div><label>Fim (Opcional)</label><input id="fim" type="datetime-local"></div>
+                        </div>
+                    </div><button type="submit" ${!mesasOpt?'disabled':''}>Salvar Aluguel</button></form>`; 
+                    break;
                 case 'manutencao': title = 'Agendar Manutenção'; const allMesasOpt = data.mesas.map(m => `<option value="${m.id}">${m.nome}</option>`).join(''); formHTML = `<form id="entity-form" data-type="manutencao"><div class="space-y-4"><div><label>Mesa</label><select id="mesaId">${allMesasOpt}</select></div><div><label>Serviço</label><input id="servico" required></div><div class="grid grid-cols-2 gap-4"><div><label>Data</label><input id="dataAgendada" type="date" required></div><div><label>Custo</label><input id="custo" type="number"></div></div></div><button type="submit">Agendar</button></form>`; break;
                 case 'produto': title = isEditing ? 'Editar Produto' : 'Adicionar Produto'; formHTML = `<form id="entity-form" data-type="produto" data-id="${entity.id||''}"><div class="space-y-4"><div><label>Nome</label><input id="nome" value="${entity.nome||''}" required></div><div><label>Categoria</label><input id="categoria" value="${entity.categoria||''}"></div><div class="grid grid-cols-2 gap-4"><div><label>Estoque</label><input id="quantidade" type="number" value="${entity.quantidade||''}" required></div><div><label>Preço</label><input id="preco" type="number" value="${entity.preco||''}" required></div></div></div><button type="submit">Salvar</button></form>`; break;
                 case 'funcionario': title = isEditing ? 'Editar Funcionário' : 'Adicionar Funcionário'; formHTML = `<form id="entity-form" data-type="funcionario" data-id="${entity.id||''}"><div class="space-y-4"><div><label>Nome</label><input id="nome" value="${entity.nome||''}" required></div><div><label>Cargo</label><select id="cargo"><option value="Atendente" ${entity.cargo==='Atendente'?'selected':''}>Atendente</option><option value="Gerente" ${entity.cargo==='Gerente'?'selected':''}>Gerente</option></select></div></div><button type="submit">Salvar</button></form>`; break;
@@ -726,6 +752,11 @@
                 .replace(/<button type="submit"/g, '<div class="mt-6 flex justify-end"><button type="submit" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-6 rounded-lg"')
                 .replace(/<\/form>/, '</div></form>');
             openModal(title, styledFormHTML);
+             if (type === 'aluguel') {
+                const now = new Date();
+                now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                document.getElementById('inicio').value = now.toISOString().slice(0, 16);
+            }
             document.getElementById('entity-form').addEventListener('submit', handleFormSubmit);
         }
 
@@ -748,7 +779,31 @@
                     targetArray = data.mesas;
                     break;
                 case 'cliente': newData = { nome: $('#nome').value, contato: $('#contato').value, desde: new Date().toISOString().split('T')[0] }; targetArray = data.clientes; break;
-                case 'aluguel': newData = { mesaId: parseInt($('#mesaId').value), clienteId: parseInt($('#clienteId').value), inicio: new Date(), fim: null, valor: null, status: 'ativo' }; targetArray = data.alugueis; data.mesas.find(m=>m.id===newData.mesaId).status = 'alugada'; break;
+                case 'aluguel':
+                    const inicioDate = new Date($('#inicio').value);
+                    const fimDateStr = $('#fim').value;
+                    const fimDate = fimDateStr ? new Date(fimDateStr) : null;
+                    const mesaId = parseInt($('#mesaId').value);
+                    const mesa = data.mesas.find(m => m.id === mesaId);
+
+                    newData = {
+                        mesaId: mesaId,
+                        clienteId: parseInt($('#clienteId').value),
+                        inicio: inicioDate
+                    };
+
+                    if (fimDate) {
+                        newData.fim = fimDate;
+                        newData.status = 'finalizado';
+                        newData.valor = ((newData.fim - newData.inicio) / 3600000) * mesa.precoHora;
+                    } else {
+                        newData.fim = null;
+                        newData.valor = null;
+                        newData.status = 'ativo';
+                        mesa.status = 'alugada';
+                    }
+                    targetArray = data.alugueis;
+                    break;
                 case 'manutencao': newData = { mesaId: parseInt($('#mesaId').value), servico: $('#servico').value, dataAgendada: $('#dataAgendada').value, custo: parseFloat($('#custo').value) || 0, status: 'agendada' }; targetArray = data.manutencoes; data.mesas.find(m=>m.id===newData.mesaId).status = 'manutencao'; gerarNotificacao(`Manutenção agendada para ${data.mesas.find(m=>m.id===newData.mesaId).nome}.`, 'info'); break;
                 case 'produto': newData = { nome: $('#nome').value, categoria: $('#categoria').value, quantidade: parseInt($('#quantidade').value), preco: parseFloat($('#preco').value) }; targetArray = data.inventario; if (newData.quantidade < 10) gerarNotificacao(`Estoque de "${newData.nome}" está baixo.`, 'aviso'); break;
                 case 'funcionario': newData = { nome: $('#nome').value, cargo: $('#cargo').value, status: 'ativo' }; targetArray = data.funcionarios; break;
