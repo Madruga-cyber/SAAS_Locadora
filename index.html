@@ -40,6 +40,7 @@
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
+            height: 8px;
         }
         ::-webkit-scrollbar-track {
             background: var(--sidebar);
@@ -63,55 +64,55 @@
 <body class="flex h-screen overflow-hidden">
 
     <!-- Sidebar de Navegação -->
-    <aside class="w-20 md:w-64 bg-gray-800 p-4 flex flex-col justify-between transition-all duration-300">
+    <aside id="sidebar" class="fixed inset-y-0 left-0 bg-gray-800 p-4 flex flex-col justify-between transition-transform duration-300 transform -translate-x-full md:translate-x-0 z-30 w-64">
         <div>
-            <div class="flex items-center justify-center md:justify-start mb-10">
+            <div class="flex items-center justify-start mb-10">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-teal-500"><path d="M12 18V6"/><path d="M7 12h10"/><path d="M19 6a3 3 0 1 0-3 3v0"/><path d="M5 18a3 3 0 1 0 3-3v0"/><circle cx="12" cy="12" r="10"/></svg>
-                <h1 class="text-2xl font-bold text-white ml-2 hidden md:block">SinuControl</h1>
+                <h1 class="text-2xl font-bold text-white ml-2">SinuControl</h1>
             </div>
             <nav class="flex flex-col space-y-2">
                 <a href="#" id="nav-dashboard" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700 active-link">
                     <i data-lucide="layout-dashboard" class="sidebar-icon h-6 w-6"></i>
-                    <span class="ml-4 hidden md:block">Dashboard</span>
+                    <span class="ml-4">Dashboard</span>
                 </a>
                 <a href="#" id="nav-mesas" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700">
                     <i data-lucide="dribbble" class="sidebar-icon h-6 w-6"></i>
-                    <span class="ml-4 hidden md:block">Gerenciar Mesas</span>
+                    <span class="ml-4">Gerenciar Mesas</span>
                 </a>
                 <a href="#" id="nav-alugueis" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700">
                     <i data-lucide="calendar-clock" class="sidebar-icon h-6 w-6"></i>
-                    <span class="ml-4 hidden md:block">Aluguéis</span>
+                    <span class="ml-4">Aluguéis</span>
                 </a>
                 <a href="#" id="nav-clientes" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700">
                     <i data-lucide="users" class="sidebar-icon h-6 w-6"></i>
-                    <span class="ml-4 hidden md:block">Clientes</span>
+                    <span class="ml-4">Clientes</span>
                 </a>
                 <a href="#" id="nav-financeiro" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700">
                     <i data-lucide="bar-chart-3" class="sidebar-icon h-6 w-6"></i>
-                    <span class="ml-4 hidden md:block">Financeiro</span>
+                    <span class="ml-4">Financeiro</span>
                 </a>
                  <a href="#" id="nav-manutencao" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700">
                     <i data-lucide="wrench" class="sidebar-icon h-6 w-6"></i>
-                    <span class="ml-4 hidden md:block">Manutenção</span>
+                    <span class="ml-4">Manutenção</span>
                 </a>
                 <a href="#" id="nav-inventario" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700">
                     <i data-lucide="package" class="sidebar-icon h-6 w-6"></i>
-                    <span class="ml-4 hidden md:block">Inventário</span>
+                    <span class="ml-4">Inventário</span>
                 </a>
                 <a href="#" id="nav-funcionarios" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700">
                     <i data-lucide="user-cog" class="sidebar-icon h-6 w-6"></i>
-                    <span class="ml-4 hidden md:block">Funcionários</span>
+                    <span class="ml-4">Funcionários</span>
                 </a>
             </nav>
         </div>
         <div>
             <a href="#" id="nav-configuracoes" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700">
                 <i data-lucide="settings" class="sidebar-icon h-6 w-6"></i>
-                <span class="ml-4 hidden md:block">Configurações</span>
+                <span class="ml-4">Configurações</span>
             </a>
             <a href="#" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700 mt-2">
                 <img id="sidebar-logo" src="" alt="Logo da Locadora" class="w-10 h-10 rounded-full object-cover bg-gray-700">
-                <div class="ml-3 hidden md:block">
+                <div class="ml-3">
                     <p id="sidebar-company-name" class="font-semibold">Locadora Exemplo</p>
                     <p id="sidebar-plan" class="text-sm text-gray-400">Plano Pro</p>
                 </div>
@@ -120,9 +121,14 @@
     </aside>
 
     <!-- Conteúdo Principal -->
-    <main class="flex-1 flex flex-col overflow-hidden">
-        <header class="flex justify-between items-center p-6 border-b border-gray-700">
-            <h1 id="page-title" class="text-3xl font-bold text-white">Dashboard</h1>
+    <main class="md:ml-64 flex-1 flex flex-col overflow-hidden">
+        <header class="flex justify-between items-center p-4 sm:p-6 border-b border-gray-700">
+            <div class="flex items-center">
+                 <button id="menu-toggle" class="md:hidden mr-4 text-gray-400 hover:text-white">
+                    <i data-lucide="menu" class="h-6 w-6"></i>
+                </button>
+                <h1 id="page-title" class="text-2xl sm:text-3xl font-bold text-white">Dashboard</h1>
+            </div>
             <div class="relative">
                 <button id="notification-bell" class="relative text-gray-400 hover:text-white">
                     <i data-lucide="bell"></i>
@@ -137,10 +143,10 @@
             </div>
         </header>
 
-        <div class="flex-1 p-6 lg:p-8 overflow-y-auto">
+        <div class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
             <!-- Seção Dashboard -->
             <div id="page-dashboard" class="page">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6">
                      <div class="bg-gray-800 p-6 rounded-lg">
                         <div class="flex justify-between items-start">
                             <h2 class="text-lg font-medium text-gray-300">Receita Total</h2>
@@ -160,7 +166,18 @@
                     <div class="bg-gray-800 p-6 rounded-lg">
                         <div class="flex justify-between items-start">
                             <h2 class="text-lg font-medium text-gray-300">Mesas Disponíveis</h2>
-                             <span class="p-2 bg-emerald-500/20 rounded-md"><i data-lucide="dribbble" class="text-emerald-400"></i></span>
+                             <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <radialGradient id="shine" cx="0.35" cy="0.35" r="0.5">
+                                        <stop offset="0%" stop-color="white" stop-opacity="0.4"/>
+                                        <stop offset="100%" stop-color="white" stop-opacity="0"/>
+                                    </radialGradient>
+                                </defs>
+                                <circle cx="50" cy="50" r="48" fill="#000000"/>
+                                <circle cx="50" cy="50" r="48" fill="url(#shine)"/>
+                                <circle cx="50" cy="50" r="22" fill="white"/>
+                                <text x="50" y="63" font-family="Arial, sans-serif" font-size="28" font-weight="bold" text-anchor="middle" fill="black">8</text>
+                            </svg>
                         </div>
                         <p id="available-tables" class="text-3xl font-bold mt-2">0</p>
                         <p class="text-sm text-gray-400 mt-1">Prontas para alugar</p>
@@ -175,11 +192,11 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-2 bg-gray-800 p-6 rounded-lg">
+                    <div class="lg:col-span-2 bg-gray-800 p-6 rounded-lg relative">
                         <h2 class="text-xl font-semibold mb-4">Visão Geral da Receita</h2>
                         <canvas id="revenueChart"></canvas>
                     </div>
-                    <div class="bg-gray-800 p-6 rounded-lg">
+                    <div class="bg-gray-800 p-6 rounded-lg relative">
                         <h2 class="text-xl font-semibold mb-4">Desempenho das Mesas</h2>
                         <canvas id="tablesChart"></canvas>
                     </div>
@@ -205,8 +222,8 @@
                         <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Novo Aluguel
                     </button>
                 </div>
-                <div class="bg-gray-800 rounded-lg overflow-hidden">
-                    <table class="w-full text-left">
+                <div class="bg-gray-800 rounded-lg overflow-x-auto">
+                    <table class="w-full text-left min-w-[800px]">
                         <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Mesa</th><th class="p-4 font-semibold">Cliente</th><th class="p-4 font-semibold">Início</th><th class="p-4 font-semibold">Fim</th><th class="p-4 font-semibold">Valor</th><th class="p-4 font-semibold">Status</th><th class="p-4 font-semibold">Ações</th></tr></thead>
                         <tbody id="alugueis-table-body"></tbody>
                     </table>
@@ -221,8 +238,8 @@
                         <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Adicionar Cliente
                     </button>
                 </div>
-                <div class="bg-gray-800 rounded-lg overflow-hidden">
-                     <table class="w-full text-left">
+                <div class="bg-gray-800 rounded-lg overflow-x-auto">
+                     <table class="w-full text-left min-w-[600px]">
                         <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Nome</th><th class="p-4 font-semibold">Contato</th><th class="p-4 font-semibold">Desde</th><th class="p-4 font-semibold">Aluguéis</th><th class="p-4 font-semibold">Ações</th></tr></thead>
                         <tbody id="clientes-table-body"></tbody>
                     </table>
@@ -237,12 +254,12 @@
                     <div class="bg-gray-800 p-6 rounded-lg"><h2 class="text-lg font-medium text-gray-300">Custos de Manutenção</h2><p id="maintenance-costs" class="text-3xl font-bold mt-2">R$ 0,00</p></div>
                 </div>
                  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                    <div class="bg-gray-800 p-6 rounded-lg"><h2 class="text-xl font-semibold mb-4">Faturamento por Dia</h2><canvas id="dailyRevenueChart"></canvas></div>
-                    <div class="bg-gray-800 p-6 rounded-lg"><h2 class="text-xl font-semibold mb-4">Receita por Mesa</h2><canvas id="revenueByTableChart"></canvas></div>
+                    <div class="bg-gray-800 p-6 rounded-lg relative"><h2 class="text-xl font-semibold mb-4">Faturamento por Dia</h2><canvas id="dailyRevenueChart"></canvas></div>
+                    <div class="bg-gray-800 p-6 rounded-lg relative"><h2 class="text-xl font-semibold mb-4">Receita por Mesa</h2><canvas id="revenueByTableChart"></canvas></div>
                 </div>
                 <h2 class="text-2xl font-bold text-white mb-4">Transações Recentes</h2>
-                <div class="bg-gray-800 rounded-lg overflow-hidden">
-                     <table class="w-full text-left">
+                <div class="bg-gray-800 rounded-lg overflow-x-auto">
+                     <table class="w-full text-left min-w-[500px]">
                         <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Data</th><th class="p-4 font-semibold">Descrição</th><th class="p-4 font-semibold">Tipo</th><th class="p-4 font-semibold">Valor</th></tr></thead>
                         <tbody id="transactions-table-body"></tbody>
                     </table>
@@ -257,8 +274,8 @@
                         <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Agendar Manutenção
                     </button>
                 </div>
-                <div class="bg-gray-800 rounded-lg overflow-hidden">
-                    <table class="w-full text-left">
+                <div class="bg-gray-800 rounded-lg overflow-x-auto">
+                    <table class="w-full text-left min-w-[700px]">
                         <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Mesa</th><th class="p-4 font-semibold">Serviço</th><th class="p-4 font-semibold">Data Agendada</th><th class="p-4 font-semibold">Custo</th><th class="p-4 font-semibold">Status</th><th class="p-4 font-semibold">Ações</th></tr></thead>
                         <tbody id="manutencao-table-body"></tbody>
                     </table>
@@ -273,8 +290,8 @@
                         <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Adicionar Produto
                     </button>
                 </div>
-                <div class="bg-gray-800 rounded-lg overflow-hidden">
-                     <table class="w-full text-left">
+                <div class="bg-gray-800 rounded-lg overflow-x-auto">
+                     <table class="w-full text-left min-w-[600px]">
                         <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Produto</th><th class="p-4 font-semibold">Categoria</th><th class="p-4 font-semibold">Estoque</th><th class="p-4 font-semibold">Preço</th><th class="p-4 font-semibold">Ações</th></tr></thead>
                         <tbody id="inventario-table-body"></tbody>
                     </table>
@@ -289,8 +306,8 @@
                         <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Adicionar Funcionário
                     </button>
                 </div>
-                <div class="bg-gray-800 rounded-lg overflow-hidden">
-                     <table class="w-full text-left">
+                <div class="bg-gray-800 rounded-lg overflow-x-auto">
+                     <table class="w-full text-left min-w-[500px]">
                         <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Nome</th><th class="p-4 font-semibold">Cargo</th><th class="p-4 font-semibold">Status</th><th class="p-4 font-semibold">Ações</th></tr></thead>
                         <tbody id="funcionarios-table-body"></tbody>
                     </table>
@@ -384,8 +401,8 @@
                 <h3 class="text-xl font-semibold mb-4 text-gray-200">Escolha seu plano</h3>
                 <div id="planos-container" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"></div>
                 <h3 class="text-xl font-semibold mb-4 text-gray-200">Histórico de Faturamento</h3>
-                <div class="bg-gray-800 rounded-lg overflow-hidden">
-                    <table class="w-full text-left">
+                <div class="bg-gray-800 rounded-lg overflow-x-auto">
+                    <table class="w-full text-left min-w-[500px]">
                         <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Data</th><th class="p-4 font-semibold">Descrição</th><th class="p-4 font-semibold">Valor</th><th class="p-4 font-semibold">Status</th></tr></thead>
                         <tbody id="billing-history-body"></tbody>
                     </table>
@@ -399,9 +416,12 @@
         </div>
     </main>
 
+    <!-- Mobile Menu Overlay -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden"></div>
+
     <!-- Modal Genérico -->
     <div id="modal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 hidden">
-        <div id="modal-content" class="bg-gray-800 rounded-lg shadow-xl p-8 w-full max-w-md transform transition-all">
+        <div id="modal-content" class="bg-gray-800 rounded-lg shadow-xl p-6 sm:p-8 w-full max-w-md m-4 transform transition-all">
             <div class="flex justify-between items-center mb-6">
                 <h2 id="modal-title" class="text-2xl font-bold text-white"></h2>
                 <button id="modal-close" class="text-gray-400 hover:text-white"><i data-lucide="x" class="h-6 w-6"></i></button>
@@ -414,7 +434,12 @@
     document.addEventListener('DOMContentLoaded', function() {
         // --- DADOS CENTRALIZADOS ---
         const data = {
-            mesas: [ { id: 1, nome: 'Mesa Clássica', tipo: 'Bilhar', status: 'disponivel', localizacao: 'Salão Principal', precoHora: 25.00 }, { id: 2, nome: 'Pebolim Master', tipo: 'Pebolim', status: 'disponivel', localizacao: 'Área de Jogos', precoHora: 15.00 }, { id: 3, nome: 'Mesa Profissional', tipo: 'Bilhar', status: 'alugada', localizacao: 'Salão Principal', precoHora: 30.00 }, { id: 4, nome: 'Mesa Compacta', tipo: 'Bilhar', status: 'manutencao', localizacao: 'Depósito', precoHora: 20.00 }, ],
+            mesas: [
+                { id: 1, nome: 'Mesa Clássica', tipo: 'Bilhar', status: 'disponivel', localizacao: 'Salão Principal', precoHora: 25.00, imageUrl: 'https://images.unsplash.com/photo-1601750123910-751790473e34?q=80&w=2070&auto=format&fit=crop' },
+                { id: 2, nome: 'Pebolim Master', tipo: 'Pebolim', status: 'disponivel', localizacao: 'Área de Jogos', precoHora: 15.00, imageUrl: 'https://images.unsplash.com/photo-1593349480503-649c262841ce?q=80&w=2070&auto=format&fit=crop' },
+                { id: 3, nome: 'Mesa Profissional', tipo: 'Bilhar', status: 'alugada', localizacao: 'Salão Principal', precoHora: 30.00, imageUrl: 'https://images.unsplash.com/photo-1551867113-28fec58525ab?q=80&w=2070&auto=format&fit=crop' },
+                { id: 4, nome: 'Mesa Compacta', tipo: 'Bilhar', status: 'manutencao', localizacao: 'Depósito', precoHora: 20.00, imageUrl: 'https://placehold.co/600x400/374151/f9fafb?text=Em+Manutenção' },
+            ],
             clientes: [ { id: 1, nome: 'Carlos Silva', contato: '(11) 98765-4321', desde: '2023-01-15' }, { id: 2, nome: 'Ana Pereira', contato: '(21) 91234-5678', desde: '2023-03-22' }, ],
             alugueis: [ { id: 1, mesaId: 3, clienteId: 1, inicio: new Date('2025-09-26T09:00:00'), fim: null, valor: null, status: 'ativo' }, { id: 2, mesaId: 1, clienteId: 2, inicio: new Date('2025-09-25T14:00:00'), fim: new Date('2025-09-25T16:00:00'), valor: 50.00, status: 'finalizado' }, ],
             manutencoes: [ { id: 1, mesaId: 4, servico: 'Troca de Pano', dataAgendada: '2025-09-28', custo: 150.00, status: 'agendada' } ],
@@ -437,8 +462,19 @@
         const modalTitle = document.getElementById('modal-title');
         const modalBody = document.getElementById('modal-body');
         const modalClose = document.getElementById('modal-close');
+        const sidebar = document.getElementById('sidebar');
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
 
-        // --- NAVEGAÇÃO ---
+        // --- NAVEGAÇÃO E MENU MOBILE ---
+        const toggleMenu = () => {
+            sidebar.classList.toggle('-translate-x-full');
+            sidebarOverlay.classList.toggle('hidden');
+        };
+
+        menuToggle.addEventListener('click', toggleMenu);
+        sidebarOverlay.addEventListener('click', toggleMenu);
+
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -451,6 +487,9 @@
                     navLinks.forEach(l => { if (l.id) l.classList.remove('active-link'); });
                     link.classList.add('active-link');
                     pageTitle.textContent = link.querySelector('span').textContent;
+                }
+                 if (window.innerWidth < 768) { // md breakpoint
+                    toggleMenu();
                 }
             });
         });
@@ -510,10 +549,10 @@
         // --- PALETAS DE CORES & CUSTOMIZAÇÃO ---
         const palettes = { teal: { name: 'SinuControl Padrão', colors: { '--background': '#111827', '--sidebar': '#1f2937', '--card': '#374151', '--accent': '#14b8a6'}}, amethyst: { name: 'Ametista Noturna', colors: { '--background': '#1f1d2b', '--sidebar': '#262837', '--card': '#3a3c4e', '--accent': '#c792ea'}}, fire: { name: 'Vulcânico', colors: { '--background': '#1c1c1c', '--sidebar': '#282828', '--card': '#3c3836', '--accent': '#fb4934'}}, emerald: { name: 'Floresta Esmeralda', colors: { '--background': '#1a2421', '--sidebar': '#22302b', '--card': '#2f423a', '--accent': '#34d399'}}, sapphire: { name: 'Oceano Safira', colors: { '--background': '#161d2d', '--sidebar': '#1f2940', '--card': '#2b3956', '--accent': '#60a5fa'}} };
         let currentPalette = 'teal';
-        function applyPalette(paletteName) { const palette = palettes[paletteName]; if (!palette) return; for (const [key, value] of Object.entries(palette.colors)) { document.documentElement.style.setProperty(key, value); } currentPalette = paletteName; renderPaletteOptions(); updateColorPickers(); }
+        function applyPalette(paletteName) { const palette = palettes[paletteName]; if (!palette) return; for (const [key, value] of Object.entries(palette.colors)) { document.documentElement.style.setProperty(key, value); } currentPalette = paletteName; renderPaletteOptions(); updateColorPickers(); renderAll(); }
         function renderPaletteOptions() { const container = document.getElementById('palette-options'); if(!container) return; container.innerHTML = ''; for (const [key, palette] of Object.entries(palettes)) { const isActive = key === currentPalette; container.innerHTML += `<button data-palette="${key}" class="palette-btn text-left p-3 rounded-lg border-2 ${isActive ? 'active-palette' : 'border-gray-600'} bg-gray-700 hover:border-gray-500 w-48 transition-all"><div class="flex items-center"><div class="w-6 h-6 rounded-full" style="background-color: ${palette.colors['--accent']};"></div><span class="ml-3 font-medium text-sm">${palette.name}</span></div></button>`; } }
         function updateColorPickers() { const rootStyles = getComputedStyle(document.documentElement); const getColorAsHex = (varName) => { const colorStr = rootStyles.getPropertyValue(varName).trim(); return colorStr; }; document.getElementById('bg-color-picker').value = getColorAsHex('--background'); document.getElementById('sidebar-color-picker').value = getColorAsHex('--sidebar'); document.getElementById('card-color-picker').value = getColorAsHex('--card'); document.getElementById('accent-color-picker').value = getColorAsHex('--accent'); }
-        document.querySelectorAll('.color-picker-input').forEach(picker => { picker.addEventListener('input', (e) => { document.documentElement.style.setProperty(e.target.dataset.var, e.target.value); currentPalette = 'custom'; renderPaletteOptions(); }); });
+        document.querySelectorAll('.color-picker-input').forEach(picker => { picker.addEventListener('input', (e) => { document.documentElement.style.setProperty(e.target.dataset.var, e.target.value); currentPalette = 'custom'; renderPaletteOptions(); renderAll(); }); });
 
         // --- RENDERIZAÇÃO GERAL ---
         function renderAll() {
@@ -524,7 +563,31 @@
         }
 
         // --- RENDERIZAÇÃO DE PÁGINAS ---
-        function renderMesas() { const grid = document.getElementById('mesas-grid'); grid.innerHTML = data.mesas.map(mesa => { const status = getStatusInfo(mesa.status); return `<div class="bg-gray-800 rounded-lg p-5 flex flex-col justify-between shadow-lg hover:shadow-teal-500/20 transition-shadow"><div><div class="flex justify-between items-center mb-2"><h3 class="text-xl font-bold">${mesa.nome}</h3><span class="text-xs font-semibold px-2 py-1 rounded-full ${status.bg} ${status.text}">${status.label}</span></div><p class="text-gray-400 text-sm mb-1">${mesa.tipo} - ${mesa.localizacao}</p><p class="text-teal-400 font-semibold text-lg">R$ ${mesa.precoHora.toFixed(2)} / hora</p></div><div class="mt-4 flex space-x-2"><button class="edit-btn w-full bg-gray-700 hover:bg-gray-600 text-sm font-semibold py-2 px-3 rounded-md" data-type="mesa" data-id="${mesa.id}">Editar</button><button class="delete-btn w-full bg-red-800 hover:bg-red-700 text-sm font-semibold py-2 px-3 rounded-md" data-type="mesa" data-id="${mesa.id}">Excluir</button></div></div>`; }).join(''); }
+        function renderMesas() {
+            const grid = document.getElementById('mesas-grid');
+            grid.innerHTML = data.mesas.map(mesa => {
+                const status = getStatusInfo(mesa.status);
+                const placeholderImg = 'https://placehold.co/600x400/374151/f9fafb?text=Mesa';
+                return `
+                <div class="bg-gray-800 rounded-lg shadow-lg hover:shadow-teal-500/20 transition-shadow overflow-hidden flex flex-col">
+                    <img src="${mesa.imageUrl || placeholderImg}" alt="Foto da ${mesa.nome}" class="w-full h-40 object-cover">
+                    <div class="p-5 flex flex-col flex-grow justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="text-xl font-bold">${mesa.nome}</h3>
+                                <span class="text-xs font-semibold px-2 py-1 rounded-full ${status.bg} ${status.text}">${status.label}</span>
+                            </div>
+                            <p class="text-gray-400 text-sm mb-1">${mesa.tipo} - ${mesa.localizacao}</p>
+                            <p class="text-teal-400 font-semibold text-lg">R$ ${mesa.precoHora.toFixed(2)} / hora</p>
+                        </div>
+                        <div class="mt-4 flex space-x-2">
+                            <button class="edit-btn w-full bg-gray-700 hover:bg-gray-600 text-sm font-semibold py-2 px-3 rounded-md" data-type="mesa" data-id="${mesa.id}">Editar</button>
+                            <button class="delete-btn w-full bg-red-800 hover:bg-red-700 text-sm font-semibold py-2 px-3 rounded-md" data-type="mesa" data-id="${mesa.id}">Excluir</button>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
         function renderAlugueis() { const tbody = document.getElementById('alugueis-table-body'); tbody.innerHTML = data.alugueis.slice().reverse().map(aluguel => { const mesa = data.mesas.find(m => m.id === aluguel.mesaId); const cliente = data.clientes.find(c => c.id === aluguel.clienteId); const status = getAluguelStatusInfo(aluguel.status); return `<tr class="border-b border-gray-700 hover:bg-gray-700/50"><td class="p-4">${mesa?.nome}</td><td class="p-4">${cliente?.nome}</td><td class="p-4">${new Date(aluguel.inicio).toLocaleString('pt-BR')}</td><td class="p-4">${aluguel.fim ? new Date(aluguel.fim).toLocaleString('pt-BR') : 'Em andamento'}</td><td class="p-4">${aluguel.valor ? `R$ ${aluguel.valor.toFixed(2)}` : '-'}</td><td class="p-4"><span class="text-xs font-semibold px-2 py-1 rounded-full ${status.bg} ${status.text}">${status.label}</span></td><td class="p-4">${aluguel.status === 'ativo' ? `<button class="end-aluguel-btn bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-1 px-3 rounded-md" data-id="${aluguel.id}">Finalizar</button>` : ''}</td></tr>`; }).join(''); }
         function renderClientes() { const tbody = document.getElementById('clientes-table-body'); tbody.innerHTML = data.clientes.map(cliente => { const totalAlugueis = data.alugueis.filter(a => a.clienteId === cliente.id).length; return `<tr class="border-b border-gray-700 hover:bg-gray-700/50"><td class="p-4">${cliente.nome}</td><td class="p-4">${cliente.contato}</td><td class="p-4">${new Date(cliente.desde).toLocaleDateString('pt-BR')}</td><td class="p-4">${totalAlugueis}</td><td class="p-4 flex space-x-2"><button class="edit-btn bg-gray-700 hover:bg-gray-600 text-xs font-semibold py-1 px-3 rounded-md" data-type="cliente" data-id="${cliente.id}">Editar</button><button class="delete-btn bg-red-800 hover:bg-red-700 text-xs font-semibold py-1 px-3 rounded-md" data-type="cliente" data-id="${cliente.id}">Excluir</button></td></tr>`; }).join(''); }
         function renderManutencoes() { const tbody = document.getElementById('manutencao-table-body'); tbody.innerHTML = data.manutencoes.map(manutencao => { const mesa = data.mesas.find(m => m.id === manutencao.mesaId); const status = getManutencaoStatusInfo(manutencao.status); return `<tr class="border-b border-gray-700 hover:bg-gray-700/50"><td class="p-4">${mesa?.nome}</td><td class="p-4">${manutencao.servico}</td><td class="p-4">${new Date(manutencao.dataAgendada + 'T00:00:00').toLocaleDateString('pt-BR')}</td><td class="p-4">${manutencao.custo ? `R$ ${manutencao.custo.toFixed(2)}` : 'A definir'}</td><td class="p-4"><span class="text-xs font-semibold px-2 py-1 rounded-full ${status.bg} ${status.text}">${status.label}</span></td><td class="p-4 flex space-x-2">${manutencao.status === 'agendada' ? `<button class="complete-manutencao-btn bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-1 px-3 rounded-md" data-id="${manutencao.id}">Concluir</button>` : ''}<button class="delete-btn bg-red-800 hover:bg-red-700 text-xs font-semibold py-1 px-3 rounded-md" data-type="manutencao" data-id="${manutencao.id}">Excluir</button></td></tr>`; }).join(''); }
@@ -533,9 +596,93 @@
         
         // --- DASHBOARD & FINANCEIRO ---
         let chartInstances = {};
-        function updateDashboard() { const finishedRentals = data.alugueis.filter(a => a.status === 'finalizado'); document.getElementById('total-revenue').textContent = `R$ ${finishedRentals.reduce((sum, a) => sum + (a.valor || 0), 0).toFixed(2)}`; document.getElementById('active-rentals').textContent = data.alugueis.filter(a => a.status === 'ativo').length; document.getElementById('available-tables').textContent = data.mesas.filter(m => m.status === 'disponivel').length; document.getElementById('new-clients').textContent = data.clientes.length; createChart('revenueChart', 'line', { labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'], datasets: [{ label: 'Receita', data: [1200, 1900, 3000, 5000, 2300, 3100, 4200], backgroundColor: 'rgba(20, 184, 166, 0.2)', borderColor: 'rgba(20, 184, 166, 1)', tension: 0.4, fill: true }] }); createChart('tablesChart', 'doughnut', { labels: ['Bilhar', 'Pebolim'], datasets: [{ data: [data.mesas.filter(m=>m.tipo==='Bilhar').length, data.mesas.filter(m=>m.tipo==='Pebolim').length], backgroundColor: ['rgba(20, 184, 166, 0.8)', 'rgba(14, 165, 233, 0.8)'], borderColor: 'transparent' }] }); }
-        function renderFinanceiro() { const finishedRentals = data.alugueis.filter(a => a.status === 'finalizado'); const monthlyRevenue = finishedRentals.reduce((sum, a) => sum + (a.valor || 0), 0); const maintenanceCosts = data.manutencoes.reduce((sum, m) => sum + (m.custo || 0), 0); const averageTicket = finishedRentals.length > 0 ? monthlyRevenue / finishedRentals.length : 0; document.getElementById('monthly-revenue').textContent = `R$ ${monthlyRevenue.toFixed(2)}`; document.getElementById('maintenance-costs').textContent = `R$ ${maintenanceCosts.toFixed(2)}`; document.getElementById('average-ticket').textContent = `R$ ${averageTicket.toFixed(2)}`; createChart('dailyRevenueChart', 'bar', { labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'], datasets: [{ label: 'Faturamento', data: [650, 590, 800, 810, 560, 1550, 1200], backgroundColor: 'rgba(20, 184, 166, 0.8)' }] }); const revenueByTable = data.mesas.map(m => data.alugueis.filter(a => a.mesaId === m.id && a.valor).reduce((sum, a) => sum + a.valor, 0)); createChart('revenueByTableChart', 'pie', { labels: data.mesas.map(m => m.nome), datasets: [{ data: revenueByTable, backgroundColor: ['#14b8a6', '#0ea5e9', '#8b5cf6', '#f97316', '#eab308'] }] }); const transactions = [...finishedRentals.map(a => ({ date: a.fim, desc: `Aluguel ${data.mesas.find(m=>m.id===a.mesaId)?.nome}`, type: 'Receita', value: a.valor })), ...data.manutencoes.map(m => ({ date: new Date(m.dataAgendada), desc: m.servico, type: 'Custo', value: -m.custo }))].sort((a, b) => b.date - a.date); document.getElementById('transactions-table-body').innerHTML = transactions.map(t => `<tr><td class="p-4">${new Date(t.date).toLocaleDateString('pt-BR')}</td><td class="p-4">${t.desc}</td><td class="p-4 ${t.type === 'Receita' ? 'text-green-400' : 'text-red-400'}">${t.type}</td><td class="p-4">${t.value.toFixed(2)}</td></tr>`).join(''); }
-        function createChart(canvasId, type, chartData) { const ctx = document.getElementById(canvasId)?.getContext('2d'); if (!ctx) return; if (chartInstances[canvasId]) chartInstances[canvasId].destroy(); const options = { responsive: true, maintainAspectRatio: false, scales: type === 'line' || type === 'bar' ? { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' } }, x: { grid: { color: 'rgba(255,255,255,0.1)' } } } : {}, plugins: { legend: { labels: { color: '#d1d5db' } } } }; chartInstances[canvasId] = new Chart(ctx, { type, data: chartData, options }); }
+        function updateDashboard() {
+            const finishedRentals = data.alugueis.filter(a => a.status === 'finalizado');
+            document.getElementById('total-revenue').textContent = `R$ ${finishedRentals.reduce((sum, a) => sum + (a.valor || 0), 0).toFixed(2)}`;
+            document.getElementById('active-rentals').textContent = data.alugueis.filter(a => a.status === 'ativo').length;
+            document.getElementById('available-tables').textContent = data.mesas.filter(m => m.status === 'disponivel').length;
+            document.getElementById('new-clients').textContent = data.clientes.length;
+
+            createChart('revenueChart', 'line', {
+                labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'],
+                datasets: [{
+                    label: 'Receita',
+                    data: [1200, 1900, 3000, 5000, 2300, 3100, 4200],
+                    tension: 0.4,
+                    fill: true
+                }]
+            });
+            createChart('tablesChart', 'doughnut', {
+                labels: ['Bilhar', 'Pebolim'],
+                datasets: [{
+                    data: [data.mesas.filter(m=>m.tipo==='Bilhar').length, data.mesas.filter(m=>m.tipo==='Pebolim').length],
+                    backgroundColor: ['#14b8a6', '#0ea5e9'],
+                    borderColor: 'transparent'
+                }]
+            });
+        }
+        function renderFinanceiro() {
+            const finishedRentals = data.alugueis.filter(a => a.status === 'finalizado');
+            const monthlyRevenue = finishedRentals.reduce((sum, a) => sum + (a.valor || 0), 0);
+            const maintenanceCosts = data.manutencoes.reduce((sum, m) => sum + (m.custo || 0), 0);
+            const averageTicket = finishedRentals.length > 0 ? monthlyRevenue / finishedRentals.length : 0;
+            document.getElementById('monthly-revenue').textContent = `R$ ${monthlyRevenue.toFixed(2)}`;
+            document.getElementById('maintenance-costs').textContent = `R$ ${maintenanceCosts.toFixed(2)}`;
+            document.getElementById('average-ticket').textContent = `R$ ${averageTicket.toFixed(2)}`;
+            
+            createChart('dailyRevenueChart', 'bar', {
+                labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+                datasets: [{ label: 'Faturamento', data: [650, 590, 800, 810, 560, 1550, 1200] }]
+            });
+            
+            const revenueByTable = data.mesas.map(m => data.alugueis.filter(a => a.mesaId === m.id && a.valor).reduce((sum, a) => sum + a.valor, 0));
+            createChart('revenueByTableChart', 'pie', {
+                labels: data.mesas.map(m => m.nome),
+                datasets: [{ data: revenueByTable, backgroundColor: ['#14b8a6', '#0ea5e9', '#8b5cf6', '#f97316', '#eab308'] }]
+            });
+            const transactions = [...finishedRentals.map(a => ({ date: a.fim, desc: `Aluguel ${data.mesas.find(m=>m.id===a.mesaId)?.nome}`, type: 'Receita', value: a.valor })), ...data.manutencoes.map(m => ({ date: new Date(m.dataAgendada), desc: m.servico, type: 'Custo', value: -m.custo }))].sort((a, b) => b.date - a.date);
+            document.getElementById('transactions-table-body').innerHTML = transactions.map(t => `<tr><td class="p-4">${new Date(t.date).toLocaleDateString('pt-BR')}</td><td class="p-4">${t.desc}</td><td class="p-4 ${t.type === 'Receita' ? 'text-green-400' : 'text-red-400'}">${t.type}</td><td class="p-4">${t.value.toFixed(2)}</td></tr>`).join('');
+        }
+        function createChart(canvasId, type, chartData) {
+            const ctx = document.getElementById(canvasId)?.getContext('2d');
+            if (!ctx) return;
+            
+            const rootStyles = getComputedStyle(document.documentElement);
+            const accentColor = rootStyles.getPropertyValue('--accent').trim();
+            const textColor = rootStyles.getPropertyValue('--text-secondary').trim();
+            const gridColor = 'rgba(255, 255, 255, 0.1)';
+
+            const hexToRgba = (hex, alpha = 1) => {
+                if (!/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) return hex; // Retorna original se não for hex
+                let c = hex.substring(1).split('');
+                if (c.length === 3) { c = [c[0], c[0], c[1], c[1], c[2], c[2]]; }
+                c = '0x' + c.join('');
+                return `rgba(${[(c>>16)&255, (c>>8)&255, c&255].join(',')},${alpha})`;
+            };
+
+            chartData.datasets.forEach(dataset => {
+                if (type === 'line') {
+                    dataset.backgroundColor = hexToRgba(accentColor, 0.2);
+                    dataset.borderColor = accentColor;
+                } else if (type === 'bar') {
+                    dataset.backgroundColor = hexToRgba(accentColor, 0.8);
+                }
+            });
+
+            if (chartInstances[canvasId]) chartInstances[canvasId].destroy();
+            const options = {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: type === 'line' || type === 'bar' ? {
+                    y: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: textColor } },
+                    x: { grid: { color: gridColor }, ticks: { color: textColor } }
+                } : {},
+                plugins: {
+                    legend: { labels: { color: textColor, boxWidth: 12, padding: 20 }, position: 'bottom' }
+                }
+            };
+            chartInstances[canvasId] = new Chart(ctx, { type, data: chartData, options });
+        }
 
         // --- ASSINATURA & PERFIL ---
         function renderAssinatura() { const container = document.getElementById('planos-container'); container.innerHTML = Object.values(data.planos).map(plano => { const isCurrent = plano.id === data.planoAtual; return `<div class="rounded-lg p-6 border-2 ${isCurrent ? 'border-teal-500 bg-gray-800' : 'border-gray-700 bg-gray-700/50'} flex flex-col"><div class="flex justify-between items-center"><h3 class="text-xl font-bold ${isCurrent ? 'text-teal-400' : 'text-white'}">${plano.nome}</h3>${isCurrent ? '<span class="text-xs font-semibold px-2 py-1 rounded-full bg-teal-500/20 text-teal-400">Plano Atual</span>' : ''}</div><p class="text-3xl font-bold mt-4">R$ ${plano.preco}<span class="text-base font-medium text-gray-400">/${plano.ciclo}</span></p><ul class="mt-6 space-y-2 text-gray-300 flex-grow">${plano.features.map(f => `<li class="flex items-center"><i data-lucide="check" class="h-4 w-4 mr-2 text-green-400"></i>${f}</li>`).join('')}</ul><button class="change-plan-btn w-full mt-6 py-2 px-4 rounded-lg font-semibold ${isCurrent ? 'bg-gray-600 text-gray-400 cursor-not-allowed' : 'bg-teal-500 hover:bg-teal-600 text-white'}" data-plan-id="${plano.id}" ${isCurrent ? 'disabled' : ''}>${isCurrent ? 'Seu Plano Atual' : 'Mudar para ' + plano.nome}</button></div>`; }).join(''); document.getElementById('billing-history-body').innerHTML = data.historicoFaturamento.map(item => `<tr><td class="p-4">${item.data}</td><td class="p-4">${item.descricao}</td><td class="p-4">R$ ${item.valor.toFixed(2)}</td><td class="p-4 text-green-400">${item.status}</td></tr>`).join(''); }
@@ -553,7 +700,19 @@
             const isEditing = !!entity.id;
             let title, formHTML;
             switch(type) {
-                case 'mesa': title = isEditing ? 'Editar Mesa' : 'Adicionar Mesa'; formHTML = `<form id="entity-form" data-type="mesa" data-id="${entity.id||''}"><div class="space-y-4"><div><label>Nome</label><input id="nome" value="${entity.nome||''}" required></div><div class="grid grid-cols-2 gap-4"><div><label>Tipo</label><select id="tipo"><option value="Bilhar" ${entity.tipo==='Bilhar'?'selected':''}>Bilhar</option><option value="Pebolim" ${entity.tipo==='Pebolim'?'selected':''}>Pebolim</option></select></div><div><label>Preço/Hora</label><input id="precoHora" type="number" value="${entity.precoHora||''}" required></div></div><div><label>Localização</label><input id="localizacao" value="${entity.localizacao||''}" required></div><div><label>Status</label><select id="status"><option value="disponivel" ${entity.status==='disponivel'?'selected':''}>Disponível</option><option value="alugada" ${entity.status==='alugada'?'selected':''}>Alugada</option><option value="manutencao" ${entity.status==='manutencao'?'selected':''}>Manutenção</option></select></div></div><button type="submit">Salvar</button></form>`; break;
+                case 'mesa':
+                    title = isEditing ? 'Editar Mesa' : 'Adicionar Mesa';
+                    formHTML = `<form id="entity-form" data-type="mesa" data-id="${entity.id||''}"><div class="space-y-4">
+                        <div><label>Nome</label><input id="nome" value="${entity.nome||''}" required></div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div><label>Tipo</label><select id="tipo"><option value="Bilhar" ${entity.tipo==='Bilhar'?'selected':''}>Bilhar</option><option value="Pebolim" ${entity.tipo==='Pebolim'?'selected':''}>Pebolim</option></select></div>
+                            <div><label>Preço/Hora</label><input id="precoHora" type="number" step="0.5" value="${entity.precoHora||''}" required></div>
+                        </div>
+                        <div><label>Localização</label><input id="localizacao" value="${entity.localizacao||''}" required></div>
+                        <div><label>URL da Imagem</label><input id="imageUrl" value="${entity.imageUrl||''}"></div>
+                        <div><label>Status</label><select id="status"><option value="disponivel" ${entity.status==='disponivel'?'selected':''}>Disponível</option><option value="alugada" ${entity.status==='alugada'?'selected':''}>Alugada</option><option value="manutencao" ${entity.status==='manutencao'?'selected':''}>Manutenção</option></select></div>
+                    </div><button type="submit">Salvar</button></form>`;
+                    break;
                 case 'cliente': title = isEditing ? 'Editar Cliente' : 'Adicionar Cliente'; formHTML = `<form id="entity-form" data-type="cliente" data-id="${entity.id||''}"><div class="space-y-4"><div><label>Nome</label><input id="nome" value="${entity.nome||''}" required></div><div><label>Contato</label><input id="contato" value="${entity.contato||''}" required></div></div><button type="submit">Salvar</button></form>`; break;
                 case 'aluguel': title = 'Novo Aluguel'; const mesasOpt = data.mesas.filter(m => m.status === 'disponivel').map(m => `<option value="${m.id}">${m.nome}</option>`).join(''); const clientesOpt = data.clientes.map(c => `<option value="${c.id}">${c.nome}</option>`).join(''); formHTML = `<form id="entity-form" data-type="aluguel"><div class="space-y-4"><div><label>Mesa</label><select id="mesaId" ${!mesasOpt?'disabled':''}>${mesasOpt||'<option>Nenhuma mesa disponível</option>'}</select></div><div><label>Cliente</label><select id="clienteId">${clientesOpt}</select></div></div><button type="submit" ${!mesasOpt?'disabled':''}>Iniciar Aluguel</button></form>`; break;
                 case 'manutencao': title = 'Agendar Manutenção'; const allMesasOpt = data.mesas.map(m => `<option value="${m.id}">${m.nome}</option>`).join(''); formHTML = `<form id="entity-form" data-type="manutencao"><div class="space-y-4"><div><label>Mesa</label><select id="mesaId">${allMesasOpt}</select></div><div><label>Serviço</label><input id="servico" required></div><div class="grid grid-cols-2 gap-4"><div><label>Data</label><input id="dataAgendada" type="date" required></div><div><label>Custo</label><input id="custo" type="number"></div></div></div><button type="submit">Agendar</button></form>`; break;
@@ -577,7 +736,17 @@
             const id = e.target.dataset.id ? parseInt(e.target.dataset.id) : null;
             let newData, targetArray;
             switch(type) {
-                case 'mesa': newData = { nome: $('#nome').value, tipo: $('#tipo').value, precoHora: parseFloat($('#precoHora').value), localizacao: $('#localizacao').value, status: $('#status').value }; targetArray = data.mesas; break;
+                case 'mesa':
+                    newData = {
+                        nome: $('#nome').value,
+                        tipo: $('#tipo').value,
+                        precoHora: parseFloat($('#precoHora').value),
+                        localizacao: $('#localizacao').value,
+                        status: $('#status').value,
+                        imageUrl: $('#imageUrl').value
+                    };
+                    targetArray = data.mesas;
+                    break;
                 case 'cliente': newData = { nome: $('#nome').value, contato: $('#contato').value, desde: new Date().toISOString().split('T')[0] }; targetArray = data.clientes; break;
                 case 'aluguel': newData = { mesaId: parseInt($('#mesaId').value), clienteId: parseInt($('#clienteId').value), inicio: new Date(), fim: null, valor: null, status: 'ativo' }; targetArray = data.alugueis; data.mesas.find(m=>m.id===newData.mesaId).status = 'alugada'; break;
                 case 'manutencao': newData = { mesaId: parseInt($('#mesaId').value), servico: $('#servico').value, dataAgendada: $('#dataAgendada').value, custo: parseFloat($('#custo').value) || 0, status: 'agendada' }; targetArray = data.manutencoes; data.mesas.find(m=>m.id===newData.mesaId).status = 'manutencao'; gerarNotificacao(`Manutenção agendada para ${data.mesas.find(m=>m.id===newData.mesaId).nome}.`, 'info'); break;
@@ -599,7 +768,6 @@
             const btn = e.target.closest('button');
             if (!btn) return;
             
-            // Corrigido: Adiciona o handler para os botões de paleta
             if (btn.classList.contains('palette-btn')) {
                 applyPalette(btn.dataset.palette);
                 return;
@@ -645,7 +813,14 @@
         
         // --- HELPERS ---
         const $ = (selector) => document.querySelector(selector);
-        function getStatusInfo(s) { switch (s) { case 'disponivel': return { label: 'Disponível', bg: 'bg-green-500/20', text: 'text-green-400' }; case 'alugada': return { label: 'Alugada', bg: 'bg-yellow-500/20', text: 'text-yellow-400' }; case 'manutencao': return { label: 'Manutenção', bg: 'bg-red-500/20', text: 'text-red-400' }; default: return { label: 'N/A', bg: 'bg-gray-500/20', text: 'text-gray-400' }; } }
+        function getStatusInfo(s) {
+            switch (s) {
+                case 'disponivel': return { label: 'Disponível', bg: 'bg-green-500/20', text: 'text-green-400', color: '#34d399' };
+                case 'alugada': return { label: 'Alugada', bg: 'bg-yellow-500/20', text: 'text-yellow-400', color: '#facc15' };
+                case 'manutencao': return { label: 'Manutenção', bg: 'bg-red-500/20', text: 'text-red-400', color: '#f87171' };
+                default: return { label: 'N/A', bg: 'bg-gray-500/20', text: 'text-gray-400', color: '#9ca3af' };
+            }
+        }
         function getAluguelStatusInfo(s) { switch (s) { case 'ativo': return { label: 'Ativo', bg: 'bg-sky-500/20', text: 'text-sky-400' }; case 'finalizado': return { label: 'Finalizado', bg: 'bg-gray-500/20', text: 'text-gray-400' }; default: return { label: 'N/A', bg: 'bg-gray-500/20', text: 'text-gray-400' }; } }
         function getManutencaoStatusInfo(s) { switch (s) { case 'agendada': return { label: 'Agendada', bg: 'bg-blue-500/20', text: 'text-blue-400' }; case 'concluida': return { label: 'Concluída', bg: 'bg-gray-500/20', text: 'text-gray-400' }; default: return { label: 'N/A', bg: 'bg-gray-500/20', text: 'text-gray-400' }; } }
         function showConfirmationModal(title, message, onConfirm) { const body = `<p class="text-gray-300 mb-6">${message}</p><div class="flex justify-end space-x-4"><button id="confirm-cancel" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-6 rounded-lg">Voltar</button><button id="confirm-ok" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg">Confirmar</button></div>`; openModal(title, body); $('#confirm-ok').onclick = () => { onConfirm(); closeModal(); }; $('#confirm-cancel').onclick = closeModal; }
