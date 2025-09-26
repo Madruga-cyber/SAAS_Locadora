@@ -43,6 +43,12 @@
         .btn-accent:hover {
             background-color: var(--accent-hover);
         }
+        .bg-sidebar {
+            background-color: var(--sidebar);
+        }
+        .bg-card {
+            background-color: var(--card);
+        }
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -70,7 +76,7 @@
 <body class="flex h-screen overflow-hidden">
 
     <!-- Sidebar de Navegação -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 bg-gray-800 p-4 flex flex-col justify-between transition-transform duration-300 transform -translate-x-full md:translate-x-0 z-30 w-64">
+    <aside id="sidebar" class="fixed inset-y-0 left-0 bg-sidebar p-4 flex flex-col justify-between transition-transform duration-300 transform -translate-x-full md:translate-x-0 z-30 w-64">
         <div>
             <div class="flex items-center justify-start mb-10">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-teal-500"><path d="M12 18V6"/><path d="M7 12h10"/><path d="M19 6a3 3 0 1 0-3 3v0"/><path d="M5 18a3 3 0 1 0 3-3v0"/><circle cx="12" cy="12" r="10"/></svg>
@@ -140,7 +146,7 @@
                     <i data-lucide="bell"></i>
                     <span id="notification-indicator" class="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full border-2 border-gray-800 hidden"></span>
                 </button>
-                <div id="notification-panel" class="absolute right-0 mt-2 w-80 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-20 hidden">
+                <div id="notification-panel" class="absolute right-0 mt-2 w-80 bg-sidebar border border-gray-700 rounded-lg shadow-lg z-20 hidden">
                     <div class="p-4 font-semibold border-b border-gray-700">Notificações</div>
                     <div id="notification-list" class="max-h-96 overflow-y-auto">
                         <!-- Notificações serão inseridas aqui -->
@@ -153,7 +159,7 @@
             <!-- Seção Dashboard -->
             <div id="page-dashboard" class="page">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6">
-                     <div class="bg-gray-800 p-6 rounded-lg">
+                     <div class="bg-card p-6 rounded-lg">
                         <div class="flex justify-between items-start">
                             <h2 class="text-lg font-medium text-gray-300">Receita Total</h2>
                             <span class="p-2 bg-teal-500/20 rounded-md"><i data-lucide="dollar-sign" class="text-teal-400"></i></span>
@@ -161,7 +167,7 @@
                         <p id="total-revenue" class="text-3xl font-bold mt-2">R$ 0,00</p>
                         <p class="text-sm text-green-400 mt-1">+15% vs. mês passado</p>
                     </div>
-                    <div class="bg-gray-800 p-6 rounded-lg">
+                    <div class="bg-card p-6 rounded-lg">
                         <div class="flex justify-between items-start">
                             <h2 class="text-lg font-medium text-gray-300">Aluguéis Ativos</h2>
                             <span class="p-2 bg-sky-500/20 rounded-md"><i data-lucide="calendar-clock" class="text-sky-400"></i></span>
@@ -169,7 +175,7 @@
                         <p id="active-rentals" class="text-3xl font-bold mt-2">0</p>
                         <p class="text-sm text-gray-400 mt-1">Mesas em uso agora</p>
                     </div>
-                    <div class="bg-gray-800 p-6 rounded-lg">
+                    <div class="bg-card p-6 rounded-lg">
                         <div class="flex justify-between items-start">
                             <h2 class="text-lg font-medium text-gray-300">Mesas Disponíveis</h2>
                              <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -188,7 +194,7 @@
                         <p id="available-tables" class="text-3xl font-bold mt-2">0</p>
                         <p class="text-sm text-gray-400 mt-1">Prontas para alugar</p>
                     </div>
-                    <div class="bg-gray-800 p-6 rounded-lg">
+                    <div class="bg-card p-6 rounded-lg">
                          <div class="flex justify-between items-start">
                             <h2 class="text-lg font-medium text-gray-300">Novos Clientes</h2>
                              <span class="p-2 bg-amber-500/20 rounded-md"><i data-lucide="user-plus" class="text-amber-400"></i></span>
@@ -198,15 +204,15 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-2 bg-gray-800 p-6 rounded-lg">
+                    <div class="lg:col-span-2 bg-card p-4 sm:p-6 rounded-lg">
                         <h2 class="text-xl font-semibold mb-4">Visão Geral da Receita</h2>
-                        <div class="relative h-64 sm:h-80">
+                        <div class="relative h-60 sm:h-80">
                             <canvas id="revenueChart"></canvas>
                         </div>
                     </div>
-                    <div class="bg-gray-800 p-6 rounded-lg">
+                    <div class="bg-card p-4 sm:p-6 rounded-lg">
                         <h2 class="text-xl font-semibold mb-4">Desempenho das Mesas</h2>
-                         <div class="relative h-64 sm:h-80">
+                         <div class="relative h-60 sm:h-80">
                             <canvas id="tablesChart"></canvas>
                         </div>
                     </div>
@@ -232,7 +238,7 @@
                         <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Novo Aluguel / Reserva
                     </button>
                 </div>
-                <div class="bg-gray-800 rounded-lg overflow-x-auto">
+                <div class="bg-card rounded-lg overflow-x-auto">
                     <table class="w-full text-left min-w-[800px]">
                         <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Mesa</th><th class="p-4 font-semibold">Cliente</th><th class="p-4 font-semibold">Início</th><th class="p-4 font-semibold">Fim</th><th class="p-4 font-semibold">Valor</th><th class="p-4 font-semibold">Status</th><th class="p-4 font-semibold">Ações</th></tr></thead>
                         <tbody id="alugueis-table-body"></tbody>
@@ -248,7 +254,7 @@
                         <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Adicionar Cliente
                     </button>
                 </div>
-                <div class="bg-gray-800 rounded-lg overflow-x-auto">
+                <div class="bg-card rounded-lg overflow-x-auto">
                      <table class="w-full text-left min-w-[600px]">
                         <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Nome</th><th class="p-4 font-semibold">Contato</th><th class="p-4 font-semibold">Desde</th><th class="p-4 font-semibold">Aluguéis</th><th class="p-4 font-semibold">Ações</th></tr></thead>
                         <tbody id="clientes-table-body"></tbody>
@@ -259,26 +265,26 @@
             <!-- Seção Financeiro -->
             <div id="page-financeiro" class="page hidden">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                    <div class="bg-gray-800 p-6 rounded-lg"><h2 class="text-lg font-medium text-gray-300">Receita do Mês</h2><p id="monthly-revenue" class="text-3xl font-bold mt-2">R$ 0,00</p></div>
-                    <div class="bg-gray-800 p-6 rounded-lg"><h2 class="text-lg font-medium text-gray-300">Ticket Médio</h2><p id="average-ticket" class="text-3xl font-bold mt-2">R$ 0,00</p></div>
-                    <div class="bg-gray-800 p-6 rounded-lg"><h2 class="text-lg font-medium text-gray-300">Custos de Manutenção</h2><p id="maintenance-costs" class="text-3xl font-bold mt-2">R$ 0,00</p></div>
+                    <div class="bg-card p-6 rounded-lg"><h2 class="text-lg font-medium text-gray-300">Receita do Mês</h2><p id="monthly-revenue" class="text-3xl font-bold mt-2">R$ 0,00</p></div>
+                    <div class="bg-card p-6 rounded-lg"><h2 class="text-lg font-medium text-gray-300">Ticket Médio</h2><p id="average-ticket" class="text-3xl font-bold mt-2">R$ 0,00</p></div>
+                    <div class="bg-card p-6 rounded-lg"><h2 class="text-lg font-medium text-gray-300">Custos de Manutenção</h2><p id="maintenance-costs" class="text-3xl font-bold mt-2">R$ 0,00</p></div>
                 </div>
                  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                    <div class="bg-gray-800 p-6 rounded-lg">
+                    <div class="bg-card p-4 sm:p-6 rounded-lg">
                         <h2 class="text-xl font-semibold mb-4">Faturamento por Dia</h2>
-                        <div class="relative h-64 sm:h-72">
+                        <div class="relative h-60 sm:h-72">
                             <canvas id="dailyRevenueChart"></canvas>
                         </div>
                     </div>
-                    <div class="bg-gray-800 p-6 rounded-lg">
+                    <div class="bg-card p-4 sm:p-6 rounded-lg">
                         <h2 class="text-xl font-semibold mb-4">Receita por Mesa</h2>
-                        <div class="relative h-64 sm:h-72">
+                        <div class="relative h-60 sm:h-72">
                             <canvas id="revenueByTableChart"></canvas>
                         </div>
                     </div>
                 </div>
                 <h2 class="text-2xl font-bold text-white mb-4">Transações Recentes</h2>
-                <div class="bg-gray-800 rounded-lg overflow-x-auto">
+                <div class="bg-card rounded-lg overflow-x-auto">
                      <table class="w-full text-left min-w-[500px]">
                         <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Data</th><th class="p-4 font-semibold">Descrição</th><th class="p-4 font-semibold">Tipo</th><th class="p-4 font-semibold">Valor</th></tr></thead>
                         <tbody id="transactions-table-body"></tbody>
@@ -294,7 +300,7 @@
                         <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Agendar Manutenção
                     </button>
                 </div>
-                <div class="bg-gray-800 rounded-lg overflow-x-auto">
+                <div class="bg-card rounded-lg overflow-x-auto">
                     <table class="w-full text-left min-w-[700px]">
                         <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Mesa</th><th class="p-4 font-semibold">Serviço</th><th class="p-4 font-semibold">Data Agendada</th><th class="p-4 font-semibold">Custo</th><th class="p-4 font-semibold">Status</th><th class="p-4 font-semibold">Ações</th></tr></thead>
                         <tbody id="manutencao-table-body"></tbody>
@@ -310,7 +316,7 @@
                         <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Adicionar Produto
                     </button>
                 </div>
-                <div class="bg-gray-800 rounded-lg overflow-x-auto">
+                <div class="bg-card rounded-lg overflow-x-auto">
                      <table class="w-full text-left min-w-[600px]">
                         <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Produto</th><th class="p-4 font-semibold">Categoria</th><th class="p-4 font-semibold">Estoque</th><th class="p-4 font-semibold">Preço</th><th class="p-4 font-semibold">Ações</th></tr></thead>
                         <tbody id="inventario-table-body"></tbody>
@@ -326,7 +332,7 @@
                         <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Adicionar Funcionário
                     </button>
                 </div>
-                <div class="bg-gray-800 rounded-lg overflow-x-auto">
+                <div class="bg-card rounded-lg overflow-x-auto">
                      <table class="w-full text-left min-w-[500px]">
                         <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Nome</th><th class="p-4 font-semibold">Cargo</th><th class="p-4 font-semibold">Status</th><th class="p-4 font-semibold">Ações</th></tr></thead>
                         <tbody id="funcionarios-table-body"></tbody>
@@ -338,7 +344,7 @@
             <div id="page-configuracoes" class="page hidden">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Card de Perfil -->
-                    <div class="bg-gray-800 p-6 rounded-lg">
+                    <div class="bg-card p-6 rounded-lg">
                         <h2 class="text-xl font-semibold mb-4">Perfil da Locadora</h2>
                         <form id="profile-form" class="space-y-4">
                             <div>
@@ -365,7 +371,7 @@
                         </form>
                     </div>
                     <!-- Card de Faturamento -->
-                    <div class="bg-gray-800 p-6 rounded-lg">
+                    <div class="bg-card p-6 rounded-lg">
                         <h2 class="text-xl font-semibold mb-4">Plano e Faturamento</h2>
                         <div class="bg-gray-700 p-4 rounded-md">
                             <p class="font-semibold">Plano Atual: <span id="settings-plan-name" class="text-teal-400">Pro</span></p>
@@ -374,7 +380,7 @@
                          <button id="manage-subscription-btn" class="mt-4 w-full bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-6 rounded-lg">Gerenciar Assinatura</button>
                     </div>
                 </div>
-                <div class="mt-6 bg-gray-800 p-6 rounded-lg">
+                <div class="mt-6 bg-card p-6 rounded-lg">
                      <h2 class="text-xl font-semibold mb-4">Aparência</h2>
                     <p class="text-gray-400 mb-4 text-sm">Escolha uma paleta de cores para personalizar a interface.</p>
                     <div id="palette-options" class="flex flex-wrap gap-4"></div>
@@ -398,7 +404,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-6 bg-gray-800 p-6 rounded-lg">
+                <div class="mt-6 bg-card p-6 rounded-lg">
                     <h2 class="text-xl font-semibold mb-4">Notificações</h2>
                     <div class="flex items-center justify-between">
                         <p>Receber resumo diário por e-mail</p>
@@ -421,7 +427,7 @@
                 <h3 class="text-xl font-semibold mb-4 text-gray-200">Escolha seu plano</h3>
                 <div id="planos-container" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"></div>
                 <h3 class="text-xl font-semibold mb-4 text-gray-200">Histórico de Faturamento</h3>
-                <div class="bg-gray-800 rounded-lg overflow-x-auto">
+                <div class="bg-card rounded-lg overflow-x-auto">
                     <table class="w-full text-left min-w-[500px]">
                         <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Data</th><th class="p-4 font-semibold">Descrição</th><th class="p-4 font-semibold">Valor</th><th class="p-4 font-semibold">Status</th></tr></thead>
                         <tbody id="billing-history-body"></tbody>
@@ -441,7 +447,7 @@
 
     <!-- Modal Genérico -->
     <div id="modal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 hidden">
-        <div id="modal-content" class="bg-gray-800 rounded-lg shadow-xl p-6 sm:p-8 w-full max-w-md m-4 transform transition-all">
+        <div id="modal-content" class="bg-card rounded-lg shadow-xl p-6 sm:p-8 w-full max-w-md m-4 transform transition-all">
             <div class="flex justify-between items-center mb-6">
                 <h2 id="modal-title" class="text-2xl font-bold text-white"></h2>
                 <button id="modal-close" class="text-gray-400 hover:text-white"><i data-lucide="x" class="h-6 w-6"></i></button>
@@ -450,35 +456,88 @@
         </div>
     </div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // --- DADOS CENTRALIZADOS ---
+    <script type="module">
+        // --- IMPORTS FIREBASE ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, collection, doc, onSnapshot, addDoc, setDoc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // --- CONFIGURAÇÃO FIREBASE ---
+        const firebaseConfig = {
+          apiKey: "AIzaSyAccki1J1NZV0enjG-V77BUFvkww0ehSrs",
+          authDomain: "sinucontrol-saas.firebaseapp.com",
+          projectId: "sinucontrol-saas",
+          storageBucket: "sinucontrol-saas.firebasestorage.app",
+          messagingSenderId: "587619466095",
+          appId: "1:587619466095:web:7fb9172669690d937cc69a",
+          measurementId: "G-RWMPXR89MQ"
+        };
+
+        // --- INICIALIZAÇÃO FIREBASE ---
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let userId = null;
+        let unsubscribes = []; // Array para guardar os listeners e poder removê-los
+
+        // --- DADOS CENTRALIZADOS (agora controlados pelo Firebase) ---
         const data = {
-            mesas: [
-                { id: 1, nome: 'Mesa Clássica', tipo: 'Bilhar', status: 'disponivel', localizacao: 'Salão Principal', precoHora: 25.00, imageUrl: 'https://images.unsplash.com/photo-1601750123910-751790473e34?q=80&w=2070&auto=format&fit=crop' },
-                { id: 2, nome: 'Pebolim Master', tipo: 'Pebolim', status: 'disponivel', localizacao: 'Área de Jogos', precoHora: 15.00, imageUrl: 'https://images.unsplash.com/photo-1593349480503-649c262841ce?q=80&w=2070&auto=format&fit=crop' },
-                { id: 3, nome: 'Mesa Profissional', tipo: 'Bilhar', status: 'alugada', localizacao: 'Salão Principal', precoHora: 30.00, imageUrl: 'https://images.unsplash.com/photo-1551867113-28fec58525ab?q=80&w=2070&auto=format&fit=crop' },
-                { id: 4, nome: 'Mesa Compacta', tipo: 'Bilhar', status: 'manutencao', localizacao: 'Depósito', precoHora: 20.00, imageUrl: 'https://placehold.co/600x400/374151/f9fafb?text=Em+Manutenção' },
-            ],
-            clientes: [ { id: 1, nome: 'Carlos Silva', contato: '(11) 98765-4321', desde: '2023-01-15' }, { id: 2, nome: 'Ana Pereira', contato: '(21) 91234-5678', desde: '2023-03-22' }, ],
-            alugueis: [ { id: 1, mesaId: 3, clienteId: 1, inicio: new Date('2025-09-26T09:00:00'), fim: null, valor: null, status: 'ativo' }, { id: 2, mesaId: 1, clienteId: 2, inicio: new Date('2025-09-25T14:00:00'), fim: new Date('2025-09-25T16:00:00'), valor: 50.00, status: 'finalizado' }, ],
-            manutencoes: [ { id: 1, mesaId: 4, servico: 'Troca de Pano', dataAgendada: '2025-09-28', custo: 150.00, status: 'agendada' } ],
-            inventario: [ { id: 1, nome: 'Giz Master Azul', categoria: 'Acessório', quantidade: 50, preco: 2.50 }, { id: 2, nome: 'Coca-Cola Lata', categoria: 'Bebida', quantidade: 8, preco: 5.00 }, { id: 3, nome: 'Taco de Sinuca', categoria: 'Equipamento', quantidade: 12, preco: 150.00 }],
-            funcionarios: [ {id: 1, nome: 'João da Silva', cargo: 'Gerente', status: 'ativo'}, {id: 2, nome: 'Maria Oliveira', cargo: 'Atendente', status: 'ativo'}],
-            notificacoes: [],
-            perfil: { nome: 'Locadora Exemplo', contato: '(99) 99999-9999', logoUrl: localStorage.getItem('sinucontrol_logo') || null },
-            planoAtual: 'pro',
+            mesas: [], clientes: [], alugueis: [], manutencoes: [], 
+            inventario: [], funcionarios: [], notificacoes: [],
+            perfil: { nome: 'Locadora Exemplo', contato: '(99) 99999-9999', logoUrl: localStorage.getItem('sinucontrol_logo') || null, planoAtual: 'basico' },
             planos: { basico: { id: 'basico', nome: 'Básico', preco: '19,90', ciclo: 'mês', features: ['Até 10 mesas', 'Relatórios básicos', 'Suporte por e-mail'] }, pro: { id: 'pro', nome: 'Pro', preco: '49,90', ciclo: 'mês', features: ['Mesas ilimitadas', 'Relatórios avançados', 'Controle de Manutenção', 'Suporte prioritário'] }, premium: { id: 'premium', nome: 'Premium', preco: '99,90', ciclo: 'mês', features: ['Tudo do Pro', 'Reservas online', 'Integrações', 'Gerente de conta dedicado'] } },
             historicoFaturamento: [ { data: '2025-09-01', descricao: 'Fatura Mensal - Plano Pro', valor: 49.90, status: 'Pago' }, { data: '2025-08-01', descricao: 'Fatura Mensal - Plano Pro', valor: 49.90, status: 'Pago' } ],
-            nextIds: { mesa: 5, cliente: 3, aluguel: 3, manutencao: 2, produto: 4, funcionario: 3, notificacao: 1 }
         };
+        
+        // --- AUTENTICAÇÃO E INICIALIZAÇÃO DE DADOS ---
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                userId = user.uid;
+                console.log("Usuário autenticado:", userId);
+                
+                unsubscribes.forEach(unsub => unsub());
+                unsubscribes = [];
+                
+                initializeDataListeners();
+            } else {
+                signInAnonymously(auth).catch(error => {
+                    console.error("Erro ao fazer login anônimo:", error);
+                });
+            }
+        });
+        
+        function initializeDataListeners() {
+            const collections = ['mesas', 'clientes', 'alugueis', 'manutencoes', 'inventario', 'funcionarios', 'notificacoes'];
+            
+            collections.forEach(colName => {
+                const colRef = collection(db, `users/${userId}/${colName}`);
+                const unsubscribe = onSnapshot(colRef, (snapshot) => {
+                    data[colName] = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    renderAll();
+                }, error => console.error(`Erro ao ouvir ${colName}:`, error));
+                unsubscribes.push(unsubscribe);
+            });
+
+            const perfilRef = doc(db, `users/${userId}/config/perfil`);
+            const unsubPerfil = onSnapshot(perfilRef, (doc) => {
+                if (doc.exists()) {
+                    data.perfil = { ...data.perfil, ...doc.data() };
+                } else {
+                    setDoc(perfilRef, data.perfil);
+                }
+                renderAll();
+            }, error => console.error("Erro ao ouvir perfil:", error));
+            unsubscribes.push(unsubPerfil);
+        }
         
         // --- ELEMENTOS DO DOM ---
         const pageTitle = document.getElementById('page-title');
         const pages = document.querySelectorAll('.page');
         const navLinks = document.querySelectorAll('.nav-link');
         const modal = document.getElementById('modal');
-        const modalContent = document.getElementById('modal-content');
         const modalTitle = document.getElementById('modal-title');
         const modalBody = document.getElementById('modal-body');
         const modalClose = document.getElementById('modal-close');
@@ -508,7 +567,7 @@
                     link.classList.add('active-link');
                     pageTitle.textContent = link.querySelector('span').textContent;
                 }
-                 if (window.innerWidth < 768) { // md breakpoint
+                 if (window.innerWidth < 768) { 
                     toggleMenu();
                 }
             });
@@ -523,24 +582,25 @@
             pageTitle.textContent = navLink.querySelector('span')?.textContent || 'Gerenciar Assinatura';
         }
 
-        // --- NOTIFICAÇÕES ---
+        // --- NOTIFICAÇÕES (Firebase) ---
         const notificationBell = document.getElementById('notification-bell');
         const notificationPanel = document.getElementById('notification-panel');
         const notificationIndicator = document.getElementById('notification-indicator');
         const notificationList = document.getElementById('notification-list');
 
-        function gerarNotificacao(texto, tipo = 'info') {
-            const novaNotificacao = { id: data.nextIds.notificacao++, texto, tipo, lida: false, data: new Date() };
-            data.notificacoes.unshift(novaNotificacao);
-            renderNotificacoes();
+        async function gerarNotificacao(texto, tipo = 'info') {
+            if (!userId) return;
+            const novaNotificacao = { texto, tipo, lida: false, data: new Date().toISOString() };
+            await addDoc(collection(db, `users/${userId}/notificacoes`), novaNotificacao);
         }
 
         function renderNotificacoes() {
             notificationList.innerHTML = '';
-            if (data.notificacoes.length === 0) {
+            const sortedNotifications = data.notificacoes.sort((a, b) => new Date(b.data) - new Date(a.data));
+            if (sortedNotifications.length === 0) {
                 notificationList.innerHTML = '<p class="p-4 text-sm text-gray-400">Nenhuma notificação nova.</p>';
             } else {
-                data.notificacoes.forEach(n => {
+                sortedNotifications.forEach(n => {
                     const icon = n.tipo === 'aviso' ? 'shield-alert' : 'info';
                     const color = n.tipo === 'aviso' ? 'text-yellow-400' : 'text-sky-400';
                     notificationList.innerHTML += `
@@ -561,8 +621,9 @@
         notificationBell.addEventListener('click', () => {
             notificationPanel.classList.toggle('hidden');
             if (!notificationPanel.classList.contains('hidden')) {
-                data.notificacoes.forEach(n => n.lida = true);
-                renderNotificacoes();
+                data.notificacoes.filter(n => !n.lida).forEach(async n => {
+                    await updateDoc(doc(db, `users/${userId}/notificacoes`, n.id), { lida: true });
+                });
             }
         });
         
@@ -582,9 +643,10 @@
 
         // --- RENDERIZAÇÃO GERAL ---
         function renderAll() {
+            if (!userId) return;
             renderMesas(); renderAlugueis(); renderClientes(); renderManutencoes(); renderInventario(); renderFuncionarios();
             updateDashboard(); renderFinanceiro(); renderAssinatura(); updatePlanDisplay(); updateProfileDisplay();
-            renderPaletteOptions(); updateColorPickers(); renderNotificacoes();
+            renderPaletteOptions(); renderNotificacoes();
             lucide.createIcons();
         }
 
@@ -595,7 +657,7 @@
                 const status = getStatusInfo(mesa.status);
                 const placeholderImg = 'https://placehold.co/600x400/374151/f9fafb?text=Mesa';
                 return `
-                <div class="bg-gray-800 rounded-lg shadow-lg hover:shadow-teal-500/20 transition-shadow overflow-hidden flex flex-col">
+                <div class="bg-card rounded-lg shadow-lg hover:shadow-teal-500/20 transition-shadow overflow-hidden flex flex-col">
                     <img src="${mesa.imageUrl || placeholderImg}" alt="Foto da ${mesa.nome}" class="w-full h-40 object-cover">
                     <div class="p-5 flex flex-col flex-grow justify-between">
                         <div>
@@ -614,9 +676,9 @@
                 </div>`;
             }).join('');
         }
-        function renderAlugueis() { const tbody = document.getElementById('alugueis-table-body'); tbody.innerHTML = data.alugueis.slice().reverse().map(aluguel => { const mesa = data.mesas.find(m => m.id === aluguel.mesaId); const cliente = data.clientes.find(c => c.id === aluguel.clienteId); const status = getAluguelStatusInfo(aluguel.status); return `<tr class="border-b border-gray-700 hover:bg-gray-700/50"><td class="p-4">${mesa?.nome}</td><td class="p-4">${cliente?.nome}</td><td class="p-4">${new Date(aluguel.inicio).toLocaleString('pt-BR')}</td><td class="p-4">${aluguel.fim ? new Date(aluguel.fim).toLocaleString('pt-BR') : 'Em andamento'}</td><td class="p-4">${aluguel.valor ? `R$ ${aluguel.valor.toFixed(2)}` : '-'}</td><td class="p-4"><span class="text-xs font-semibold px-2 py-1 rounded-full ${status.bg} ${status.text}">${status.label}</span></td><td class="p-4">${aluguel.status === 'ativo' ? `<button class="end-aluguel-btn bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-1 px-3 rounded-md" data-id="${aluguel.id}">Finalizar</button>` : ''}</td></tr>`; }).join(''); }
-        function renderClientes() { const tbody = document.getElementById('clientes-table-body'); tbody.innerHTML = data.clientes.map(cliente => { const totalAlugueis = data.alugueis.filter(a => a.clienteId === cliente.id).length; return `<tr class="border-b border-gray-700 hover:bg-gray-700/50"><td class="p-4">${cliente.nome}</td><td class="p-4">${cliente.contato}</td><td class="p-4">${new Date(cliente.desde).toLocaleDateString('pt-BR')}</td><td class="p-4">${totalAlugueis}</td><td class="p-4 flex space-x-2"><button class="edit-btn bg-gray-700 hover:bg-gray-600 text-xs font-semibold py-1 px-3 rounded-md" data-type="cliente" data-id="${cliente.id}">Editar</button><button class="delete-btn bg-red-800 hover:bg-red-700 text-xs font-semibold py-1 px-3 rounded-md" data-type="cliente" data-id="${cliente.id}">Excluir</button></td></tr>`; }).join(''); }
-        function renderManutencoes() { const tbody = document.getElementById('manutencao-table-body'); tbody.innerHTML = data.manutencoes.map(manutencao => { const mesa = data.mesas.find(m => m.id === manutencao.mesaId); const status = getManutencaoStatusInfo(manutencao.status); return `<tr class="border-b border-gray-700 hover:bg-gray-700/50"><td class="p-4">${mesa?.nome}</td><td class="p-4">${manutencao.servico}</td><td class="p-4">${new Date(manutencao.dataAgendada + 'T00:00:00').toLocaleDateString('pt-BR')}</td><td class="p-4">${manutencao.custo ? `R$ ${manutencao.custo.toFixed(2)}` : 'A definir'}</td><td class="p-4"><span class="text-xs font-semibold px-2 py-1 rounded-full ${status.bg} ${status.text}">${status.label}</span></td><td class="p-4 flex space-x-2">${manutencao.status === 'agendada' ? `<button class="complete-manutencao-btn bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-1 px-3 rounded-md" data-id="${manutencao.id}">Concluir</button>` : ''}<button class="delete-btn bg-red-800 hover:bg-red-700 text-xs font-semibold py-1 px-3 rounded-md" data-type="manutencao" data-id="${manutencao.id}">Excluir</button></td></tr>`; }).join(''); }
+        function renderAlugueis() { const tbody = document.getElementById('alugueis-table-body'); const sortedAlugueis = data.alugueis.sort((a,b) => new Date(b.inicio) - new Date(a.inicio)); tbody.innerHTML = sortedAlugueis.map(aluguel => { const mesa = data.mesas.find(m => m.id === aluguel.mesaId); const cliente = data.clientes.find(c => c.id === aluguel.clienteId); const status = getAluguelStatusInfo(aluguel.status); const inicio = aluguel.inicio?.toDate ? aluguel.inicio.toDate() : new Date(aluguel.inicio); const fim = aluguel.fim?.toDate ? aluguel.fim.toDate() : (aluguel.fim ? new Date(aluguel.fim) : null); return `<tr class="border-b border-gray-700 hover:bg-gray-700/50"><td class="p-4">${mesa?.nome}</td><td class="p-4">${cliente?.nome}</td><td class="p-4">${inicio.toLocaleString('pt-BR')}</td><td class="p-4">${fim ? fim.toLocaleString('pt-BR') : 'Em andamento'}</td><td class="p-4">${aluguel.valor ? `R$ ${aluguel.valor.toFixed(2)}` : '-'}</td><td class="p-4"><span class="text-xs font-semibold px-2 py-1 rounded-full ${status.bg} ${status.text}">${status.label}</span></td><td class="p-4">${aluguel.status === 'ativo' ? `<button class="end-aluguel-btn bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-1 px-3 rounded-md" data-id="${aluguel.id}">Finalizar</button>` : ''}</td></tr>`; }).join(''); }
+        function renderClientes() { const tbody = document.getElementById('clientes-table-body'); tbody.innerHTML = data.clientes.map(cliente => { const totalAlugueis = data.alugueis.filter(a => a.clienteId === cliente.id).length; const desde = cliente.desde?.toDate ? cliente.desde.toDate() : new Date(cliente.desde); return `<tr class="border-b border-gray-700 hover:bg-gray-700/50"><td class="p-4">${cliente.nome}</td><td class="p-4">${cliente.contato}</td><td class="p-4">${desde.toLocaleDateString('pt-BR')}</td><td class="p-4">${totalAlugueis}</td><td class="p-4 flex space-x-2"><button class="edit-btn bg-gray-700 hover:bg-gray-600 text-xs font-semibold py-1 px-3 rounded-md" data-type="cliente" data-id="${cliente.id}">Editar</button><button class="delete-btn bg-red-800 hover:bg-red-700 text-xs font-semibold py-1 px-3 rounded-md" data-type="cliente" data-id="${cliente.id}">Excluir</button></td></tr>`; }).join(''); }
+        function renderManutencoes() { const tbody = document.getElementById('manutencao-table-body'); tbody.innerHTML = data.manutencoes.map(manutencao => { const mesa = data.mesas.find(m => m.id === manutencao.mesaId); const status = getManutencaoStatusInfo(manutencao.status); const dataAgendada = manutencao.dataAgendada?.toDate ? manutencao.dataAgendada.toDate() : new Date(manutencao.dataAgendada + 'T03:00:00Z'); return `<tr class="border-b border-gray-700 hover:bg-gray-700/50"><td class="p-4">${mesa?.nome}</td><td class="p-4">${manutencao.servico}</td><td class="p-4">${dataAgendada.toLocaleDateString('pt-BR')}</td><td class="p-4">${manutencao.custo ? `R$ ${manutencao.custo.toFixed(2)}` : 'A definir'}</td><td class="p-4"><span class="text-xs font-semibold px-2 py-1 rounded-full ${status.bg} ${status.text}">${status.label}</span></td><td class="p-4 flex space-x-2">${manutencao.status === 'agendada' ? `<button class="complete-manutencao-btn bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-1 px-3 rounded-md" data-id="${manutencao.id}">Concluir</button>` : ''}<button class="delete-btn bg-red-800 hover:bg-red-700 text-xs font-semibold py-1 px-3 rounded-md" data-type="manutencao" data-id="${manutencao.id}">Excluir</button></td></tr>`; }).join(''); }
         function renderInventario() { const tbody = document.getElementById('inventario-table-body'); tbody.innerHTML = data.inventario.map(item => { const lowStock = item.quantidade < 10; return `<tr class="border-b border-gray-700 hover:bg-gray-700/50"><td class="p-4">${item.nome}</td><td class="p-4">${item.categoria}</td><td class="p-4 ${lowStock ? 'text-yellow-400 font-bold' : ''}">${item.quantidade}${lowStock ? ' (Baixo!)' : ''}</td><td class="p-4">R$ ${item.preco.toFixed(2)}</td><td class="p-4 flex space-x-2"><button class="edit-btn bg-gray-700 hover:bg-gray-600 text-xs font-semibold py-1 px-3 rounded-md" data-type="produto" data-id="${item.id}">Editar</button><button class="delete-btn bg-red-800 hover:bg-red-700 text-xs font-semibold py-1 px-3 rounded-md" data-type="produto" data-id="${item.id}">Excluir</button></td></tr>`; }).join(''); }
         function renderFuncionarios() { const tbody = document.getElementById('funcionarios-table-body'); tbody.innerHTML = data.funcionarios.map(func => { const status = func.status === 'ativo' ? { bg: 'bg-green-500/20', text: 'text-green-400', label: 'Ativo' } : { bg: 'bg-gray-500/20', text: 'text-gray-400', label: 'Inativo' }; return `<tr class="border-b border-gray-700 hover:bg-gray-700/50"><td class="p-4">${func.nome}</td><td class="p-4">${func.cargo}</td><td class="p-4"><span class="text-xs font-semibold px-2 py-1 rounded-full ${status.bg} ${status.text}">${status.label}</span></td><td class="p-4 flex space-x-2"><button class="edit-btn bg-gray-700 hover:bg-gray-600 text-xs font-semibold py-1 px-3 rounded-md" data-type="funcionario" data-id="${func.id}">Editar</button></td></tr>`; }).join(''); }
         
@@ -664,9 +726,9 @@
             const revenueByTable = data.mesas.map(m => data.alugueis.filter(a => a.mesaId === m.id && a.valor).reduce((sum, a) => sum + a.valor, 0));
             createChart('revenueByTableChart', 'pie', {
                 labels: data.mesas.map(m => m.nome),
-                datasets: [{ data: revenueByTable, backgroundColor: ['#14b8a6', '#0ea5e9', '#8b5cf6', '#f97316', '#eab308'] }]
+                datasets: [{ data: revenueByTable.length > 0 ? revenueByTable : [1], backgroundColor: ['#14b8a6', '#0ea5e9', '#8b5cf6', '#f97316', '#eab308'] }]
             });
-            const transactions = [...finishedRentals.map(a => ({ date: a.fim, desc: `Aluguel ${data.mesas.find(m=>m.id===a.mesaId)?.nome}`, type: 'Receita', value: a.valor })), ...data.manutencoes.map(m => ({ date: new Date(m.dataAgendada), desc: m.servico, type: 'Custo', value: -m.custo }))].sort((a, b) => b.date - a.date);
+            const transactions = [...finishedRentals.map(a => ({ date: a.fim?.toDate ? a.fim.toDate() : new Date(a.fim), desc: `Aluguel ${data.mesas.find(m=>m.id===a.mesaId)?.nome}`, type: 'Receita', value: a.valor })), ...data.manutencoes.map(m => ({ date: m.dataAgendada?.toDate ? m.dataAgendada.toDate() : new Date(m.dataAgendada), desc: m.servico, type: 'Custo', value: -m.custo }))].sort((a, b) => b.date - a.date);
             document.getElementById('transactions-table-body').innerHTML = transactions.map(t => `<tr><td class="p-4">${new Date(t.date).toLocaleDateString('pt-BR')}</td><td class="p-4">${t.desc}</td><td class="p-4 ${t.type === 'Receita' ? 'text-green-400' : 'text-red-400'}">${t.type}</td><td class="p-4">${t.value.toFixed(2)}</td></tr>`).join('');
         }
         function createChart(canvasId, type, chartData) {
@@ -679,7 +741,7 @@
             const gridColor = 'rgba(255, 255, 255, 0.1)';
 
             const hexToRgba = (hex, alpha = 1) => {
-                if (!/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) return hex; // Retorna original se não for hex
+                if (!/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) return hex;
                 let c = hex.substring(1).split('');
                 if (c.length === 3) { c = [c[0], c[0], c[1], c[1], c[2], c[2]]; }
                 c = '0x' + c.join('');
@@ -714,8 +776,8 @@
         function renderAssinatura() { 
             const container = document.getElementById('planos-container'); 
             container.innerHTML = Object.values(data.planos).map(plano => { 
-                const isCurrent = plano.id === data.planoAtual; 
-                return `<div class="rounded-lg p-6 border-2 ${isCurrent ? 'border-teal-500 bg-gray-800' : 'border-gray-700 bg-gray-700/50'} flex flex-col">
+                const isCurrent = plano.id === data.perfil.planoAtual; 
+                return `<div class="rounded-lg p-6 border-2 ${isCurrent ? 'border-teal-500 bg-card' : 'border-gray-700 bg-card opacity-75'} flex flex-col">
                     <div class="flex justify-between items-center">
                         <h3 class="text-xl font-bold ${isCurrent ? 'text-teal-400' : 'text-white'}">${plano.nome}</h3>
                         ${isCurrent ? '<span class="text-xs font-semibold px-2 py-1 rounded-full bg-teal-500/20 text-teal-400">Plano Atual</span>' : ''}
@@ -729,8 +791,8 @@
             }).join(''); 
             document.getElementById('billing-history-body').innerHTML = data.historicoFaturamento.map(item => `<tr><td class="p-4">${item.data}</td><td class="p-4">${item.descricao}</td><td class="p-4">R$ ${item.valor.toFixed(2)}</td><td class="p-4 text-green-400">${item.status}</td></tr>`).join(''); 
         }
-        function updatePlanDisplay() { const plano = data.planos[data.planoAtual]; if (plano) { document.getElementById('sidebar-plan').textContent = `Plano ${plano.nome}`; document.getElementById('settings-plan-name').textContent = plano.nome; } }
-        function updateProfileDisplay() { 
+        function updatePlanDisplay() { const plano = data.planos[data.perfil.planoAtual]; if (plano) { document.getElementById('sidebar-plan').textContent = `Plano ${plano.nome}`; document.getElementById('settings-plan-name').textContent = plano.nome; } }
+        async function updateProfileDisplay() { 
             document.getElementById('company-name').value = data.perfil.nome; 
             document.getElementById('sidebar-company-name').textContent = data.perfil.nome; 
             document.getElementById('company-contact').value = data.perfil.contato; 
@@ -743,8 +805,8 @@
             document.getElementById('logo-preview').src = displayUrl; 
             document.getElementById('sidebar-logo').src = displayUrl; 
         }
-        document.getElementById('logo-upload')?.addEventListener('change', (e) => { const file = e.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = (event) => { data.perfil.logoUrl = event.target.result; localStorage.setItem('sinucontrol_logo', data.perfil.logoUrl); updateProfileDisplay(); }; reader.readAsDataURL(file); } });
-        document.getElementById('profile-form')?.addEventListener('submit', (e) => { e.preventDefault(); data.perfil.nome = document.getElementById('company-name').value; data.perfil.contato = document.getElementById('company-contact').value; updateProfileDisplay(); });
+        document.getElementById('logo-upload')?.addEventListener('change', (e) => { const file = e.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = async (event) => { const logoUrl = event.target.result; localStorage.setItem('sinucontrol_logo', logoUrl); data.perfil.logoUrl = logoUrl; await setDoc(doc(db, `users/${userId}/config/perfil`), { logoUrl }, { merge: true }); }; reader.readAsDataURL(file); } });
+        document.getElementById('profile-form')?.addEventListener('submit', async (e) => { e.preventDefault(); const newProfile = { nome: document.getElementById('company-name').value, contato: document.getElementById('company-contact').value }; await setDoc(doc(db, `users/${userId}/config/perfil`), newProfile, { merge: true }); });
 
         // --- MODAL & FORMULÁRIOS ---
         function openModal(title, body) { modalTitle.textContent = title; modalBody.innerHTML = body; modal.classList.remove('hidden'); lucide.createIcons(); }
@@ -785,95 +847,132 @@
                 case 'manutencao': title = 'Agendar Manutenção'; const allMesasOpt = data.mesas.map(m => `<option value="${m.id}">${m.nome}</option>`).join(''); formHTML = `<form id="entity-form" data-type="manutencao"><div class="space-y-4"><div><label>Mesa</label><select id="mesaId">${allMesasOpt}</select></div><div><label>Serviço</label><input id="servico" required></div><div class="grid grid-cols-2 gap-4"><div><label>Data</label><input id="dataAgendada" type="date" required></div><div><label>Custo</label><input id="custo" type="number"></div></div></div><button type="submit">Agendar</button></form>`; break;
                 case 'produto': title = isEditing ? 'Editar Produto' : 'Adicionar Produto'; formHTML = `<form id="entity-form" data-type="produto" data-id="${entity.id||''}"><div class="space-y-4"><div><label>Nome</label><input id="nome" value="${entity.nome||''}" required></div><div><label>Categoria</label><input id="categoria" value="${entity.categoria||''}"></div><div class="grid grid-cols-2 gap-4"><div><label>Estoque</label><input id="quantidade" type="number" value="${entity.quantidade||''}" required></div><div><label>Preço</label><input id="preco" type="number" value="${entity.preco||''}" required></div></div></div><button type="submit">Salvar</button></form>`; break;
                 case 'funcionario': title = isEditing ? 'Editar Funcionário' : 'Adicionar Funcionário'; formHTML = `<form id="entity-form" data-type="funcionario" data-id="${entity.id||''}"><div class="space-y-4"><div><label>Nome</label><input id="nome" value="${entity.nome||''}" required></div><div><label>Cargo</label><select id="cargo"><option value="Atendente" ${entity.cargo==='Atendente'?'selected':''}>Atendente</option><option value="Gerente" ${entity.cargo==='Gerente'?'selected':''}>Gerente</option></select></div></div><button type="submit">Salvar</button></form>`; break;
+                 case 'pagamento':
+                    title = `Assinar Plano ${data.planos[entity.planId].nome}`;
+                    formHTML = `<form id="payment-form" data-plan-id="${entity.planId}">
+                        <div class="space-y-4">
+                            <div><label class="block text-sm font-medium text-gray-300">Nome no Cartão</label><input id="card-name" class="w-full bg-gray-700 border border-gray-600 rounded-md p-2 mt-1 text-white focus:ring-teal-500 focus:border-teal-500" required></div>
+                            <div><label class="block text-sm font-medium text-gray-300">Número do Cartão</label><input id="card-number" class="w-full bg-gray-700 border border-gray-600 rounded-md p-2 mt-1 text-white focus:ring-teal-500 focus:border-teal-500" placeholder="0000 0000 0000 0000" required></div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div><label class="block text-sm font-medium text-gray-300">Validade (MM/AA)</label><input id="card-expiry" class="w-full bg-gray-700 border border-gray-600 rounded-md p-2 mt-1 text-white focus:ring-teal-500 focus:border-teal-500" placeholder="MM/AA" required></div>
+                                <div><label class="block text-sm font-medium text-gray-300">CVC</label><input id="card-cvc" class="w-full bg-gray-700 border border-gray-600 rounded-md p-2 mt-1 text-white focus:ring-teal-500 focus:border-teal-500" placeholder="123" required></div>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex justify-end">
+                            <button type="submit" id="payment-submit-btn" class="btn-accent text-white font-bold py-2 px-6 rounded-lg flex items-center">
+                                <span id="payment-btn-text">Assinar por R$ ${data.planos[entity.planId].preco}</span>
+                                <svg id="payment-spinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            </button>
+                        </div>
+                    </form>`;
+                    break;
             }
+            
             const styledFormHTML = formHTML
                 .replace(/<label>/g, '<label class="block text-sm font-medium text-gray-300">')
                 .replace(/<input/g, '<input class="w-full bg-gray-700 border border-gray-600 rounded-md p-2 mt-1 text-white focus:ring-teal-500 focus:border-teal-500"')
                 .replace(/<select/g, '<select class="w-full bg-gray-700 border border-gray-600 rounded-md p-2 mt-1 text-white focus:ring-teal-500 focus:border-teal-500"')
-                .replace(/<button type="submit"/g, '<div class="mt-6 flex justify-end"><button type="submit" class="btn-accent text-white font-bold py-2 px-6 rounded-lg"')
+                .replace(/<button type="submit">/g, '<div class="mt-6 flex justify-end"><button type="submit" class="btn-accent text-white font-bold py-2 px-6 rounded-lg">')
                 .replace(/<\/form>/, '</div></form>');
-            openModal(title, styledFormHTML);
-             if (type === 'aluguel') {
+            
+            openModal(title, type === 'pagamento' ? formHTML : styledFormHTML);
+            
+            if (type === 'aluguel') {
                 const now = new Date();
                 now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
                 document.getElementById('inicio').value = now.toISOString().slice(0, 16);
             }
-            document.getElementById('entity-form').addEventListener('submit', handleFormSubmit);
+            
+            const form = document.getElementById('entity-form') || document.getElementById('payment-form');
+            form.addEventListener('submit', handleFormSubmit);
         }
 
-        // --- HANDLERS ---
-        function handleFormSubmit(e) {
+        // --- HANDLERS (Firebase) ---
+        async function handleFormSubmit(e) {
             e.preventDefault();
+            if (!userId) return;
             const type = e.target.dataset.type;
-            const id = e.target.dataset.id ? parseInt(e.target.dataset.id) : null;
-            let newData, targetArray;
+            const id = e.target.dataset.id;
+
+            let newData;
+            
+            if(e.target.id === 'payment-form') {
+                 const planId = e.target.dataset.planId;
+                 const btn = document.getElementById('payment-submit-btn');
+                 const btnText = document.getElementById('payment-btn-text');
+                 const spinner = document.getElementById('payment-spinner');
+
+                 btn.disabled = true;
+                 btnText.classList.add('hidden');
+                 spinner.classList.remove('hidden');
+
+                 setTimeout(async () => {
+                    await setDoc(doc(db, `users/${userId}/config/perfil`), { planoAtual: planId }, { merge: true });
+                    closeModal();
+                 }, 2000);
+                 return;
+            }
+
             switch(type) {
                 case 'mesa':
                     newData = {
-                        nome: $('#nome').value,
-                        tipo: $('#tipo').value,
-                        precoHora: parseFloat($('#precoHora').value),
-                        localizacao: $('#localizacao').value,
-                        status: $('#status').value,
-                        imageUrl: $('#imageUrl').value
+                        nome: $('#nome').value, tipo: $('#tipo').value, precoHora: parseFloat($('#precoHora').value),
+                        localizacao: $('#localizacao').value, status: $('#status').value, imageUrl: $('#imageUrl').value
                     };
-                    targetArray = data.mesas;
                     break;
-                case 'cliente': newData = { nome: $('#nome').value, contato: $('#contato').value, desde: new Date().toISOString().split('T')[0] }; targetArray = data.clientes; break;
+                case 'cliente': newData = { nome: $('#nome').value, contato: $('#contato').value, desde: new Date() }; break;
                 case 'aluguel':
-                    const inicioDate = new Date($('#inicio').value);
-                    const fimDateStr = $('#fim').value;
-                    const fimDate = fimDateStr ? new Date(fimDateStr) : null;
-                    const mesaId = parseInt($('#mesaId').value);
+                    const mesaId = $('#mesaId').value;
                     const mesa = data.mesas.find(m => m.id === mesaId);
-
                     newData = {
-                        mesaId: mesaId,
-                        clienteId: parseInt($('#clienteId').value),
-                        inicio: inicioDate
+                        mesaId: mesaId, clienteId: $('#clienteId').value, inicio: new Date($('#inicio').value)
                     };
-
-                    if (fimDate) {
-                        newData.fim = fimDate;
+                    const fimDateStr = $('#fim').value;
+                    if (fimDateStr) {
+                        newData.fim = new Date(fimDateStr);
                         newData.status = 'finalizado';
                         newData.valor = ((newData.fim - newData.inicio) / 3600000) * mesa.precoHora;
                     } else {
-                        newData.fim = null;
-                        newData.valor = null;
-                        newData.status = 'ativo';
-                        mesa.status = 'alugada';
+                        newData.fim = null; newData.valor = null; newData.status = 'ativo';
+                        await updateDoc(doc(db, `users/${userId}/mesas`, mesaId), { status: 'alugada' });
                     }
-                    targetArray = data.alugueis;
                     break;
-                case 'manutencao': newData = { mesaId: parseInt($('#mesaId').value), servico: $('#servico').value, dataAgendada: $('#dataAgendada').value, custo: parseFloat($('#custo').value) || 0, status: 'agendada' }; targetArray = data.manutencoes; data.mesas.find(m=>m.id===newData.mesaId).status = 'manutencao'; gerarNotificacao(`Manutenção agendada para ${data.mesas.find(m=>m.id===newData.mesaId).nome}.`, 'info'); break;
-                case 'produto': newData = { nome: $('#nome').value, categoria: $('#categoria').value, quantidade: parseInt($('#quantidade').value), preco: parseFloat($('#preco').value) }; targetArray = data.inventario; if (newData.quantidade < 10) gerarNotificacao(`Estoque de "${newData.nome}" está baixo.`, 'aviso'); break;
-                case 'funcionario': newData = { nome: $('#nome').value, cargo: $('#cargo').value, status: 'ativo' }; targetArray = data.funcionarios; break;
+                case 'manutencao': 
+                    const manutMesaId = $('#mesaId').value;
+                    newData = { mesaId: manutMesaId, servico: $('#servico').value, dataAgendada: new Date($('#dataAgendada').value), custo: parseFloat($('#custo').value) || 0, status: 'agendada' }; 
+                    await updateDoc(doc(db, `users/${userId}/mesas`, manutMesaId), { status: 'manutencao' });
+                    await gerarNotificacao(`Manutenção agendada para ${data.mesas.find(m=>m.id===manutMesaId).nome}.`); 
+                    break;
+                case 'produto': 
+                    newData = { nome: $('#nome').value, categoria: $('#categoria').value, quantidade: parseInt($('#quantidade').value), preco: parseFloat($('#preco').value) }; 
+                    if (newData.quantidade < 10) await gerarNotificacao(`Estoque de "${newData.nome}" está baixo.`, 'aviso'); 
+                    break;
+                case 'funcionario': newData = { nome: $('#nome').value, cargo: $('#cargo').value, status: 'ativo' }; break;
             }
+            
+            const colName = getCollectionName(type);
+            const colRef = collection(db, `users/${userId}/${colName}`);
             if (id) {
-                const index = targetArray.findIndex(item => item.id === id);
-                targetArray[index] = { ...targetArray[index], ...newData };
+                await updateDoc(doc(colRef, id), newData);
             } else {
-                newData.id = data.nextIds[type]++;
-                targetArray.push(newData);
+                await addDoc(colRef, newData);
             }
             closeModal();
-            renderAll();
         }
 
-        document.body.addEventListener('click', (e) => {
+        document.body.addEventListener('click', async (e) => {
+            if (!userId) return;
             const btn = e.target.closest('button');
             if (!btn) return;
             
-            if (btn.classList.contains('palette-btn')) {
-                applyPalette(btn.dataset.palette);
-                return;
-            }
+            if (btn.classList.contains('palette-btn')) { applyPalette(btn.dataset.palette); return; }
 
             const { type, id } = btn.dataset;
             
-            const getArrayNameFromType = (type) => {
-                const map = { mesa: 'mesas', cliente: 'clientes', manutencao: 'manutencoes', produto: 'inventario', funcionario: 'funcionarios' };
-                return map[type] || null;
+            const getEntity = (type, id) => {
+                const colName = getCollectionName(type);
+                const array = data[colName];
+                return array ? array.find(i => i.id === id) : null;
             };
 
             // Botões de Adicionar
@@ -885,30 +984,50 @@
             if (btn.id === 'add-funcionario-btn') showForm('funcionario');
             
             // Botões de Ação
-            if (btn.classList.contains('edit-btn')) { 
-                const arrayName = getArrayNameFromType(type);
-                if (arrayName) {
-                    const entity = data[arrayName].find(i => i.id == id);
-                    showForm(type, entity);
-                }
-            }
+            if (btn.classList.contains('edit-btn')) { showForm(type, getEntity(type, id)); }
             if (btn.classList.contains('delete-btn')) { 
                 if (confirm(`Tem certeza que deseja excluir este item?`)) { 
-                    const arrayName = getArrayNameFromType(type);
-                    if (arrayName) {
-                        data[arrayName] = data[arrayName].filter(i => i.id != id);
-                        renderAll();
-                    }
-                }
+                    const colName = getCollectionName(type);
+                    await deleteDoc(doc(db, `users/${userId}/${colName}`, id)); 
+                } 
             }
-            if (btn.classList.contains('end-aluguel-btn')) { const aluguel = data.alugueis.find(a => a.id == id); if (aluguel) { aluguel.fim = new Date(); aluguel.status = 'finalizado'; const mesa = data.mesas.find(m => m.id === aluguel.mesaId); aluguel.valor = ((aluguel.fim - aluguel.inicio) / 3600000) * mesa.precoHora; mesa.status = 'disponivel'; renderAll(); } }
-            if (btn.classList.contains('complete-manutencao-btn')) { const manutencao = data.manutencoes.find(m => m.id == id); if (manutencao) { manutencao.status = 'concluida'; const mesa = data.mesas.find(m => m.id === manutencao.mesaId); if (mesa && !data.manutencoes.some(m => m.mesaId === mesa.id && m.status === 'agendada')) { mesa.status = 'disponivel'; } renderAll(); } }
-            if (btn.classList.contains('change-plan-btn')) { data.planoAtual = btn.dataset.planId; renderAll(); }
+            if (btn.classList.contains('end-aluguel-btn')) { 
+                const aluguel = getEntity('aluguel', id);
+                if (aluguel) { 
+                    const fim = new Date();
+                    const inicio = aluguel.inicio?.toDate ? aluguel.inicio.toDate() : new Date(aluguel.inicio);
+                    const mesa = data.mesas.find(m => m.id === aluguel.mesaId);
+                    const valor = ((fim - inicio) / 3600000) * mesa.precoHora;
+                    await updateDoc(doc(db, `users/${userId}/alugueis`, id), { fim, status: 'finalizado', valor });
+                    await updateDoc(doc(db, `users/${userId}/mesas`, aluguel.mesaId), { status: 'disponivel' });
+                } 
+            }
+            if (btn.classList.contains('complete-manutencao-btn')) { 
+                const manutencao = getEntity('manutencao', id);
+                if (manutencao) { 
+                    await updateDoc(doc(db, `users/${userId}/manutencoes`, id), { status: 'concluida' });
+                    const mesa = data.mesas.find(m => m.id === manutencao.mesaId);
+                    const outrasManutencoes = data.manutencoes.some(m => m.id !== id && m.mesaId === mesa.id && m.status === 'agendada');
+                    if (mesa && !outrasManutencoes) {
+                       await updateDoc(doc(db, `users/${userId}/mesas`, manutencao.mesaId), { status: 'disponivel' });
+                    }
+                } 
+            }
+            if (btn.classList.contains('change-plan-btn')) { showForm('pagamento', {planId: btn.dataset.planId}); }
             if (btn.id === 'cancel-subscription-btn') { showConfirmationModal('Confirmar Cancelamento', 'Tem certeza que deseja cancelar sua assinatura?', () => alert('Assinatura cancelada.')); }
         });
         
         // --- HELPERS ---
         const $ = (selector) => document.querySelector(selector);
+        
+        const getCollectionName = (type) => {
+            const map = {
+                mesa: 'mesas', cliente: 'clientes', aluguel: 'alugueis',
+                manutencao: 'manutencoes', produto: 'inventario', funcionario: 'funcionarios'
+            };
+            return map[type] || type + 's';
+        }
+
         function getStatusInfo(s) {
             switch (s) {
                 case 'disponivel': return { label: 'Disponível', bg: 'bg-green-500/20', text: 'text-green-400', color: '#34d399' };
@@ -921,9 +1040,8 @@
         function getManutencaoStatusInfo(s) { switch (s) { case 'agendada': return { label: 'Agendada', bg: 'bg-blue-500/20', text: 'text-blue-400' }; case 'concluida': return { label: 'Concluída', bg: 'bg-gray-500/20', text: 'text-gray-400' }; default: return { label: 'N/A', bg: 'bg-gray-500/20', text: 'text-gray-400' }; } }
         function showConfirmationModal(title, message, onConfirm) { const body = `<p class="text-gray-300 mb-6">${message}</p><div class="flex justify-end space-x-4"><button id="confirm-cancel" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-6 rounded-lg">Voltar</button><button id="confirm-ok" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg">Confirmar</button></div>`; openModal(title, body); $('#confirm-ok').onclick = () => { onConfirm(); closeModal(); }; $('#confirm-cancel').onclick = closeModal; }
         
-        // --- INICIALIZAÇÃO ---
-        renderAll();
-    });
+        // --- INICIALIZAÇÃO VISUAL ---
+        lucide.createIcons();
     </script>
 </body>
 </html>
