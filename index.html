@@ -206,13 +206,13 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div class="lg:col-span-2 bg-card p-4 sm:p-6 rounded-lg">
                         <h2 class="text-xl font-semibold mb-4">Visão Geral da Receita</h2>
-                        <div class="relative h-60 sm:h-80">
+                        <div class="relative h-64 sm:h-80">
                             <canvas id="revenueChart"></canvas>
                         </div>
                     </div>
                     <div class="bg-card p-4 sm:p-6 rounded-lg">
                         <h2 class="text-xl font-semibold mb-4">Desempenho das Mesas</h2>
-                         <div class="relative h-60 sm:h-80">
+                         <div class="relative h-64 sm:h-80">
                             <canvas id="tablesChart"></canvas>
                         </div>
                     </div>
@@ -272,13 +272,13 @@
                  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                     <div class="bg-card p-4 sm:p-6 rounded-lg">
                         <h2 class="text-xl font-semibold mb-4">Faturamento por Dia</h2>
-                        <div class="relative h-60 sm:h-72">
+                        <div class="relative h-64 sm:h-72">
                             <canvas id="dailyRevenueChart"></canvas>
                         </div>
                     </div>
                     <div class="bg-card p-4 sm:p-6 rounded-lg">
                         <h2 class="text-xl font-semibold mb-4">Receita por Mesa</h2>
-                        <div class="relative h-60 sm:h-72">
+                        <div class="relative h-64 sm:h-72">
                             <canvas id="revenueByTableChart"></canvas>
                         </div>
                     </div>
@@ -344,7 +344,7 @@
             <div id="page-configuracoes" class="page hidden">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Card de Perfil -->
-                    <div class="bg-card p-6 rounded-lg">
+                    <div class="bg-card p-4 sm:p-6 rounded-lg">
                         <h2 class="text-xl font-semibold mb-4">Perfil da Locadora</h2>
                         <form id="profile-form" class="space-y-4">
                             <div>
@@ -371,7 +371,7 @@
                         </form>
                     </div>
                     <!-- Card de Faturamento -->
-                    <div class="bg-card p-6 rounded-lg">
+                    <div class="bg-card p-4 sm:p-6 rounded-lg">
                         <h2 class="text-xl font-semibold mb-4">Plano e Faturamento</h2>
                         <div class="bg-gray-700 p-4 rounded-md">
                             <p class="font-semibold">Plano Atual: <span id="settings-plan-name" class="text-teal-400">Pro</span></p>
@@ -380,7 +380,7 @@
                          <button id="manage-subscription-btn" class="mt-4 w-full bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-6 rounded-lg">Gerenciar Assinatura</button>
                     </div>
                 </div>
-                <div class="mt-6 bg-card p-6 rounded-lg">
+                <div class="mt-6 bg-card p-4 sm:p-6 rounded-lg">
                      <h2 class="text-xl font-semibold mb-4">Aparência</h2>
                     <p class="text-gray-400 mb-4 text-sm">Escolha uma paleta de cores para personalizar a interface.</p>
                     <div id="palette-options" class="flex flex-wrap gap-4"></div>
@@ -404,7 +404,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-6 bg-card p-6 rounded-lg">
+                <div class="mt-6 bg-card p-4 sm:p-6 rounded-lg">
                     <h2 class="text-xl font-semibold mb-4">Notificações</h2>
                     <div class="flex items-center justify-between">
                         <p>Receber resumo diário por e-mail</p>
@@ -433,7 +433,7 @@
                         <tbody id="billing-history-body"></tbody>
                     </table>
                 </div>
-                <div class="mt-8 bg-red-900/20 border border-red-500/30 p-6 rounded-lg">
+                <div class="mt-8 bg-red-900/20 border border-red-500/30 p-4 sm:p-6 rounded-lg">
                     <h3 class="text-lg font-semibold text-red-300">Zona de Perigo</h3>
                     <p class="text-red-400 mt-2 mb-4">Cancelar sua assinatura removerá o acesso a todos os recursos do plano Pro no final do seu ciclo de faturamento.</p>
                     <button id="cancel-subscription-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg">Cancelar Assinatura</button>
@@ -487,9 +487,9 @@
         const data = {
             mesas: [], clientes: [], alugueis: [], manutencoes: [], 
             inventario: [], funcionarios: [], notificacoes: [],
-            perfil: { nome: 'Locadora Exemplo', contato: '(99) 99999-9999', logoUrl: localStorage.getItem('sinucontrol_logo') || null, planoAtual: 'basico' },
+            perfil: { nome: 'Minha Locadora', contato: '(00) 00000-0000', logoUrl: null, planoAtual: 'basico' },
             planos: { basico: { id: 'basico', nome: 'Básico', preco: '19,90', ciclo: 'mês', features: ['Até 10 mesas', 'Relatórios básicos', 'Suporte por e-mail'] }, pro: { id: 'pro', nome: 'Pro', preco: '49,90', ciclo: 'mês', features: ['Mesas ilimitadas', 'Relatórios avançados', 'Controle de Manutenção', 'Suporte prioritário'] }, premium: { id: 'premium', nome: 'Premium', preco: '99,90', ciclo: 'mês', features: ['Tudo do Pro', 'Reservas online', 'Integrações', 'Gerente de conta dedicado'] } },
-            historicoFaturamento: [ { data: '2025-09-01', descricao: 'Fatura Mensal - Plano Pro', valor: 49.90, status: 'Pago' }, { data: '2025-08-01', descricao: 'Fatura Mensal - Plano Pro', valor: 49.90, status: 'Pago' } ],
+            historicoFaturamento: [],
         };
         
         // --- AUTENTICAÇÃO E INICIALIZAÇÃO DE DADOS ---
@@ -642,11 +642,31 @@
         
         // --- PALETAS DE CORES & CUSTOMIZAÇÃO ---
         const palettes = { 
-            teal: { name: 'SinuControl Padrão', colors: { '--background': '#111827', '--sidebar': '#1f2937', '--card': '#374151', '--accent': '#14b8a6', '--accent-hover': '#0d9488'}}, 
-            amethyst: { name: 'Ametista Noturna', colors: { '--background': '#1f1d2b', '--sidebar': '#262837', '--card': '#3a3c4e', '--accent': '#c792ea', '--accent-hover': '#a378c2'}}, 
-            fire: { name: 'Vulcânico', colors: { '--background': '#1c1c1c', '--sidebar': '#282828', '--card': '#3c3836', '--accent': '#fb4934', '--accent-hover': '#d63a26'}}, 
-            emerald: { name: 'Floresta Esmeralda', colors: { '--background': '#1a2421', '--sidebar': '#22302b', '--card': '#2f423a', '--accent': '#34d399', '--accent-hover': '#25a575'}}, 
-            sapphire: { name: 'Oceano Safira', colors: { '--background': '#161d2d', '--sidebar': '#1f2940', '--card': '#2b3956', '--accent': '#60a5fa', '--accent-hover': '#438cf0'}} 
+            teal: { 
+                name: 'SinuControl Padrão', 
+                colors: { '--background': '#111827', '--sidebar': '#1f2937', '--card': '#374151', '--accent': '#14b8a6', '--accent-hover': '#0d9488' },
+                chartColors: ['#14b8a6', '#38bdf8', '#fb923c', '#facc15', '#a78bfa']
+            }, 
+            amethyst: { 
+                name: 'Ametista Noturna', 
+                colors: { '--background': '#1f1d2b', '--sidebar': '#262837', '--card': '#3a3c4e', '--accent': '#c792ea', '--accent-hover': '#a378c2' },
+                chartColors: ['#c792ea', '#82aaff', '#ffcb6b', '#c3e88d', '#ff5572']
+            }, 
+            fire: { 
+                name: 'Vulcânico', 
+                colors: { '--background': '#1c1c1c', '--sidebar': '#282828', '--card': '#3c3836', '--accent': '#fb4934', '--accent-hover': '#d63a26' },
+                chartColors: ['#fb4934', '#fabd2f', '#b8bb26', '#83a598', '#d3869b']
+            }, 
+            emerald: { 
+                name: 'Floresta Esmeralda', 
+                colors: { '--background': '#1a2421', '--sidebar': '#22302b', '--card': '#2f423a', '--accent': '#34d399', '--accent-hover': '#25a575' },
+                chartColors: ['#34d399', '#60a5fa', '#f472b6', '#f59e0b', '#818cf8']
+            }, 
+            sapphire: { 
+                name: 'Oceano Safira', 
+                colors: { '--background': '#161d2d', '--sidebar': '#1f2940', '--card': '#2b3956', '--accent': '#60a5fa', '--accent-hover': '#438cf0' },
+                chartColors: ['#60a5fa', '#5eead4', '#f87171', '#fde047', '#a5b4fc']
+            }
         };
         let currentPalette = 'teal';
         function applyCustomColors(colors) {
@@ -755,9 +775,7 @@
             createChart('tablesChart', 'doughnut', {
                 labels: ['Bilhar', 'Pebolim'],
                 datasets: [{
-                    data: [data.mesas.filter(m=>m.tipo==='Bilhar').length, data.mesas.filter(m=>m.tipo==='Pebolim').length],
-                    backgroundColor: ['#14b8a6', '#0ea5e9'],
-                    borderColor: 'transparent'
+                    data: [data.mesas.filter(m=>m.tipo==='Bilhar').length, data.mesas.filter(m=>m.tipo==='Pebolim').length]
                 }]
             });
         }
@@ -778,7 +796,7 @@
             const revenueByTable = data.mesas.map(m => data.alugueis.filter(a => a.mesaId === m.id && a.valor).reduce((sum, a) => sum + a.valor, 0));
             createChart('revenueByTableChart', 'pie', {
                 labels: data.mesas.map(m => m.nome),
-                datasets: [{ data: revenueByTable.length > 0 ? revenueByTable : [1], backgroundColor: ['#14b8a6', '#0ea5e9', '#8b5cf6', '#f97316', '#eab308'] }]
+                datasets: [{ data: revenueByTable.length > 0 ? revenueByTable : [1] }]
             });
             const transactions = [...finishedRentals.map(a => ({ date: a.fim?.toDate ? a.fim.toDate() : new Date(a.fim), desc: `Aluguel ${data.mesas.find(m=>m.id===a.mesaId)?.nome}`, type: 'Receita', value: a.valor })), ...data.manutencoes.map(m => ({ date: m.dataAgendada?.toDate ? m.dataAgendada.toDate() : new Date(m.dataAgendada), desc: m.servico, type: 'Custo', value: -m.custo }))].sort((a, b) => b.date - a.date);
             document.getElementById('transactions-table-body').innerHTML = transactions.map(t => `<tr><td class="p-4">${new Date(t.date).toLocaleDateString('pt-BR')}</td><td class="p-4">${t.desc}</td><td class="p-4 ${t.type === 'Receita' ? 'text-green-400' : 'text-red-400'}">${t.type}</td><td class="p-4">${t.value.toFixed(2)}</td></tr>`).join('');
@@ -806,6 +824,11 @@
                     dataset.borderColor = accentColor;
                 } else if (type === 'bar') {
                     dataset.backgroundColor = hexToRgba(accentColor, 0.8);
+                } else if (type === 'pie' || type === 'doughnut') {
+                    const palette = palettes[currentPalette] || palettes.teal; // Fallback for 'custom'
+                    dataset.backgroundColor = palette.chartColors;
+                    dataset.borderColor = rootStyles.getPropertyValue('--card').trim();
+                    dataset.borderWidth = 2;
                 }
             });
 
@@ -829,7 +852,7 @@
             const container = document.getElementById('planos-container'); 
             container.innerHTML = Object.values(data.planos).map(plano => { 
                 const isCurrent = plano.id === data.perfil.planoAtual; 
-                return `<div class="rounded-lg p-6 border-2 ${isCurrent ? 'border-teal-500 bg-card' : 'border-gray-700 bg-card opacity-75'} flex flex-col">
+                return `<div class="rounded-lg p-4 sm:p-6 border-2 ${isCurrent ? 'border-teal-500 bg-card' : 'border-gray-700 bg-card opacity-75'} flex flex-col">
                     <div class="flex justify-between items-center">
                         <h3 class="text-xl font-bold ${isCurrent ? 'text-teal-400' : 'text-white'}">${plano.nome}</h3>
                         ${isCurrent ? '<span class="text-xs font-semibold px-2 py-1 rounded-full bg-teal-500/20 text-teal-400">Plano Atual</span>' : ''}
