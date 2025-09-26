@@ -37,6 +37,12 @@
             border-color: var(--accent) !important;
             box-shadow: 0 0 0 2px var(--accent);
         }
+        .btn-accent {
+            background-color: var(--accent);
+        }
+        .btn-accent:hover {
+            background-color: var(--accent-hover);
+        }
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -211,7 +217,7 @@
             <div id="page-mesas" class="page hidden">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-white">Todas as Mesas</h2>
-                    <button id="add-mesa-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+                    <button id="add-mesa-btn" class="btn-accent text-white font-bold py-2 px-4 rounded-lg flex items-center">
                         <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Adicionar Mesa
                     </button>
                 </div>
@@ -222,7 +228,7 @@
             <div id="page-alugueis" class="page hidden">
                  <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-white">Histórico de Aluguéis</h2>
-                    <button id="add-aluguel-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+                    <button id="add-aluguel-btn" class="btn-accent text-white font-bold py-2 px-4 rounded-lg flex items-center">
                         <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Novo Aluguel / Reserva
                     </button>
                 </div>
@@ -238,7 +244,7 @@
             <div id="page-clientes" class="page hidden">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-white">Clientes</h2>
-                     <button id="add-cliente-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+                     <button id="add-cliente-btn" class="btn-accent text-white font-bold py-2 px-4 rounded-lg flex items-center">
                         <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Adicionar Cliente
                     </button>
                 </div>
@@ -284,7 +290,7 @@
             <div id="page-manutencao" class="page hidden">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-white">Controle de Manutenção</h2>
-                    <button id="add-manutencao-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+                    <button id="add-manutencao-btn" class="btn-accent text-white font-bold py-2 px-4 rounded-lg flex items-center">
                         <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Agendar Manutenção
                     </button>
                 </div>
@@ -300,7 +306,7 @@
             <div id="page-inventario" class="page hidden">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-white">Controle de Inventário</h2>
-                    <button id="add-produto-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+                    <button id="add-produto-btn" class="btn-accent text-white font-bold py-2 px-4 rounded-lg flex items-center">
                         <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Adicionar Produto
                     </button>
                 </div>
@@ -316,7 +322,7 @@
             <div id="page-funcionarios" class="page hidden">
                  <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold text-white">Gestão de Funcionários</h2>
-                    <button id="add-funcionario-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+                    <button id="add-funcionario-btn" class="btn-accent text-white font-bold py-2 px-4 rounded-lg flex items-center">
                         <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Adicionar Funcionário
                     </button>
                 </div>
@@ -354,7 +360,7 @@
                                 <input type="text" id="company-contact" value="(99) 99999-9999" class="w-full bg-gray-700 border border-gray-600 rounded-md p-2 mt-1 text-white focus:ring-teal-500 focus:border-teal-500">
                             </div>
                             <div class="pt-2">
-                                 <button type="submit" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-6 rounded-lg">Salvar Perfil</button>
+                                 <button type="submit" class="btn-accent text-white font-bold py-2 px-6 rounded-lg">Salvar Perfil</button>
                             </div>
                         </form>
                     </div>
@@ -561,7 +567,13 @@
         });
         
         // --- PALETAS DE CORES & CUSTOMIZAÇÃO ---
-        const palettes = { teal: { name: 'SinuControl Padrão', colors: { '--background': '#111827', '--sidebar': '#1f2937', '--card': '#374151', '--accent': '#14b8a6'}}, amethyst: { name: 'Ametista Noturna', colors: { '--background': '#1f1d2b', '--sidebar': '#262837', '--card': '#3a3c4e', '--accent': '#c792ea'}}, fire: { name: 'Vulcânico', colors: { '--background': '#1c1c1c', '--sidebar': '#282828', '--card': '#3c3836', '--accent': '#fb4934'}}, emerald: { name: 'Floresta Esmeralda', colors: { '--background': '#1a2421', '--sidebar': '#22302b', '--card': '#2f423a', '--accent': '#34d399'}}, sapphire: { name: 'Oceano Safira', colors: { '--background': '#161d2d', '--sidebar': '#1f2940', '--card': '#2b3956', '--accent': '#60a5fa'}} };
+        const palettes = { 
+            teal: { name: 'SinuControl Padrão', colors: { '--background': '#111827', '--sidebar': '#1f2937', '--card': '#374151', '--accent': '#14b8a6', '--accent-hover': '#0d9488'}}, 
+            amethyst: { name: 'Ametista Noturna', colors: { '--background': '#1f1d2b', '--sidebar': '#262837', '--card': '#3a3c4e', '--accent': '#c792ea', '--accent-hover': '#a378c2'}}, 
+            fire: { name: 'Vulcânico', colors: { '--background': '#1c1c1c', '--sidebar': '#282828', '--card': '#3c3836', '--accent': '#fb4934', '--accent-hover': '#d63a26'}}, 
+            emerald: { name: 'Floresta Esmeralda', colors: { '--background': '#1a2421', '--sidebar': '#22302b', '--card': '#2f423a', '--accent': '#34d399', '--accent-hover': '#25a575'}}, 
+            sapphire: { name: 'Oceano Safira', colors: { '--background': '#161d2d', '--sidebar': '#1f2940', '--card': '#2b3956', '--accent': '#60a5fa', '--accent-hover': '#438cf0'}} 
+        };
         let currentPalette = 'teal';
         function applyPalette(paletteName) { const palette = palettes[paletteName]; if (!palette) return; for (const [key, value] of Object.entries(palette.colors)) { document.documentElement.style.setProperty(key, value); } currentPalette = paletteName; renderPaletteOptions(); updateColorPickers(); renderAll(); }
         function renderPaletteOptions() { const container = document.getElementById('palette-options'); if(!container) return; container.innerHTML = ''; for (const [key, palette] of Object.entries(palettes)) { const isActive = key === currentPalette; container.innerHTML += `<button data-palette="${key}" class="palette-btn text-left p-3 rounded-lg border-2 ${isActive ? 'active-palette' : 'border-gray-600'} bg-gray-700 hover:border-gray-500 w-48 transition-all"><div class="flex items-center"><div class="w-6 h-6 rounded-full" style="background-color: ${palette.colors['--accent']};"></div><span class="ml-3 font-medium text-sm">${palette.name}</span></div></button>`; } }
@@ -699,9 +711,38 @@
         }
 
         // --- ASSINATURA & PERFIL ---
-        function renderAssinatura() { const container = document.getElementById('planos-container'); container.innerHTML = Object.values(data.planos).map(plano => { const isCurrent = plano.id === data.planoAtual; return `<div class="rounded-lg p-6 border-2 ${isCurrent ? 'border-teal-500 bg-gray-800' : 'border-gray-700 bg-gray-700/50'} flex flex-col"><div class="flex justify-between items-center"><h3 class="text-xl font-bold ${isCurrent ? 'text-teal-400' : 'text-white'}">${plano.nome}</h3>${isCurrent ? '<span class="text-xs font-semibold px-2 py-1 rounded-full bg-teal-500/20 text-teal-400">Plano Atual</span>' : ''}</div><p class="text-3xl font-bold mt-4">R$ ${plano.preco}<span class="text-base font-medium text-gray-400">/${plano.ciclo}</span></p><ul class="mt-6 space-y-2 text-gray-300 flex-grow">${plano.features.map(f => `<li class="flex items-center"><i data-lucide="check" class="h-4 w-4 mr-2 text-green-400"></i>${f}</li>`).join('')}</ul><button class="change-plan-btn w-full mt-6 py-2 px-4 rounded-lg font-semibold ${isCurrent ? 'bg-gray-600 text-gray-400 cursor-not-allowed' : 'bg-teal-500 hover:bg-teal-600 text-white'}" data-plan-id="${plano.id}" ${isCurrent ? 'disabled' : ''}>${isCurrent ? 'Seu Plano Atual' : 'Mudar para ' + plano.nome}</button></div>`; }).join(''); document.getElementById('billing-history-body').innerHTML = data.historicoFaturamento.map(item => `<tr><td class="p-4">${item.data}</td><td class="p-4">${item.descricao}</td><td class="p-4">R$ ${item.valor.toFixed(2)}</td><td class="p-4 text-green-400">${item.status}</td></tr>`).join(''); }
+        function renderAssinatura() { 
+            const container = document.getElementById('planos-container'); 
+            container.innerHTML = Object.values(data.planos).map(plano => { 
+                const isCurrent = plano.id === data.planoAtual; 
+                return `<div class="rounded-lg p-6 border-2 ${isCurrent ? 'border-teal-500 bg-gray-800' : 'border-gray-700 bg-gray-700/50'} flex flex-col">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-xl font-bold ${isCurrent ? 'text-teal-400' : 'text-white'}">${plano.nome}</h3>
+                        ${isCurrent ? '<span class="text-xs font-semibold px-2 py-1 rounded-full bg-teal-500/20 text-teal-400">Plano Atual</span>' : ''}
+                    </div>
+                    <p class="text-3xl font-bold mt-4">R$ ${plano.preco}<span class="text-base font-medium text-gray-400">/${plano.ciclo}</span></p>
+                    <ul class="mt-6 space-y-2 text-gray-300 flex-grow">${plano.features.map(f => `<li class="flex items-center"><i data-lucide="check" class="h-4 w-4 mr-2 text-green-400"></i>${f}</li>`).join('')}</ul>
+                    <button class="change-plan-btn w-full mt-6 py-2 px-4 rounded-lg font-semibold ${isCurrent ? 'bg-gray-600 text-gray-400 cursor-not-allowed' : 'btn-accent text-white'}" data-plan-id="${plano.id}" ${isCurrent ? 'disabled' : ''}>
+                        ${isCurrent ? 'Seu Plano Atual' : 'Mudar para ' + plano.nome}
+                    </button>
+                </div>`; 
+            }).join(''); 
+            document.getElementById('billing-history-body').innerHTML = data.historicoFaturamento.map(item => `<tr><td class="p-4">${item.data}</td><td class="p-4">${item.descricao}</td><td class="p-4">R$ ${item.valor.toFixed(2)}</td><td class="p-4 text-green-400">${item.status}</td></tr>`).join(''); 
+        }
         function updatePlanDisplay() { const plano = data.planos[data.planoAtual]; if (plano) { document.getElementById('sidebar-plan').textContent = `Plano ${plano.nome}`; document.getElementById('settings-plan-name').textContent = plano.nome; } }
-        function updateProfileDisplay() { document.getElementById('company-name').value = data.perfil.nome; document.getElementById('sidebar-company-name').textContent = data.perfil.nome; document.getElementById('company-contact').value = data.perfil.contato; const defaultLogo = 'https://placehold.co/100x100/14b8a6/ffffff?text=L'; const displayUrl = data.perfil.logoUrl || defaultLogo; document.getElementById('logo-preview').src = displayUrl; document.getElementById('sidebar-logo').src = displayUrl; }
+        function updateProfileDisplay() { 
+            document.getElementById('company-name').value = data.perfil.nome; 
+            document.getElementById('sidebar-company-name').textContent = data.perfil.nome; 
+            document.getElementById('company-contact').value = data.perfil.contato; 
+            
+            const rootStyles = getComputedStyle(document.documentElement);
+            const accentColor = rootStyles.getPropertyValue('--accent').trim().replace('#', '');
+            const defaultLogo = `https://placehold.co/100x100/${accentColor}/ffffff?text=L`; 
+
+            const displayUrl = data.perfil.logoUrl || defaultLogo; 
+            document.getElementById('logo-preview').src = displayUrl; 
+            document.getElementById('sidebar-logo').src = displayUrl; 
+        }
         document.getElementById('logo-upload')?.addEventListener('change', (e) => { const file = e.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = (event) => { data.perfil.logoUrl = event.target.result; localStorage.setItem('sinucontrol_logo', data.perfil.logoUrl); updateProfileDisplay(); }; reader.readAsDataURL(file); } });
         document.getElementById('profile-form')?.addEventListener('submit', (e) => { e.preventDefault(); data.perfil.nome = document.getElementById('company-name').value; data.perfil.contato = document.getElementById('company-contact').value; updateProfileDisplay(); });
 
@@ -749,7 +790,7 @@
                 .replace(/<label>/g, '<label class="block text-sm font-medium text-gray-300">')
                 .replace(/<input/g, '<input class="w-full bg-gray-700 border border-gray-600 rounded-md p-2 mt-1 text-white focus:ring-teal-500 focus:border-teal-500"')
                 .replace(/<select/g, '<select class="w-full bg-gray-700 border border-gray-600 rounded-md p-2 mt-1 text-white focus:ring-teal-500 focus:border-teal-500"')
-                .replace(/<button type="submit"/g, '<div class="mt-6 flex justify-end"><button type="submit" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-6 rounded-lg"')
+                .replace(/<button type="submit"/g, '<div class="mt-6 flex justify-end"><button type="submit" class="btn-accent text-white font-bold py-2 px-6 rounded-lg"')
                 .replace(/<\/form>/, '</div></form>');
             openModal(title, styledFormHTML);
              if (type === 'aluguel') {
