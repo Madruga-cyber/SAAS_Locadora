@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SinuControl - SAAS para Locadora de Mesas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --background: #111827;
+            --sidebar: #1f2937;
+            --card: #374151;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --accent: #14b8a6;
+            --accent-hover: #0d9488;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+        }
+        .sidebar-icon {
+            stroke-width: 1.5;
+        }
+        .active-link {
+            background-color: var(--accent);
+            color: white;
+        }
+        .active-link svg {
+            color: white;
+        }
+        .active-palette {
+            border-color: var(--accent) !important;
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--sidebar);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--card);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+        input[type="color"]::-webkit-color-swatch {
+            border: none;
+            border-radius: 0.375rem;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar de Navegação -->
+    <aside class="w-20 md:w-64 bg-gray-800 p-4 flex flex-col justify-between transition-all duration-300">
+        <div>
+            <div class="flex items-center justify-center md:justify-start mb-10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-teal-500"><path d="M12 18V6"/><path d="M7 12h10"/><path d="M19 6a3 3 0 1 0-3 3v0"/><path d="M5 18a3 3 0 1 0 3-3v0"/><circle cx="12" cy="12" r="10"/></svg>
+                <h1 class="text-2xl font-bold text-white ml-2 hidden md:block">SinuControl</h1>
+            </div>
+            <nav class="flex flex-col space-y-2">
+                <a href="#" id="nav-dashboard" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700 active-link">
+                    <i data-lucide="layout-dashboard" class="sidebar-icon h-6 w-6"></i>
+                    <span class="ml-4 hidden md:block">Dashboard</span>
+                </a>
+                <a href="#" id="nav-mesas" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700">
+                    <i data-lucide="dribbble" class="sidebar-icon h-6 w-6"></i>
+                    <span class="ml-4 hidden md:block">Gerenciar Mesas</span>
+                </a>
+                <a href="#" id="nav-alugueis" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700">
+                    <i data-lucide="calendar-clock" class="sidebar-icon h-6 w-6"></i>
+                    <span class="ml-4 hidden md:block">Aluguéis</span>
+                </a>
+                <a href="#" id="nav-clientes" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700">
+                    <i data-lucide="users" class="sidebar-icon h-6 w-6"></i>
+                    <span class="ml-4 hidden md:block">Clientes</span>
+                </a>
+                <a href="#" id="nav-financeiro" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700">
+                    <i data-lucide="bar-chart-3" class="sidebar-icon h-6 w-6"></i>
+                    <span class="ml-4 hidden md:block">Financeiro</span>
+                </a>
+                 <a href="#" id="nav-manutencao" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700">
+                    <i data-lucide="wrench" class="sidebar-icon h-6 w-6"></i>
+                    <span class="ml-4 hidden md:block">Manutenção</span>
+                </a>
+                <a href="#" id="nav-inventario" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700">
+                    <i data-lucide="package" class="sidebar-icon h-6 w-6"></i>
+                    <span class="ml-4 hidden md:block">Inventário</span>
+                </a>
+                <a href="#" id="nav-funcionarios" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700">
+                    <i data-lucide="user-cog" class="sidebar-icon h-6 w-6"></i>
+                    <span class="ml-4 hidden md:block">Funcionários</span>
+                </a>
+            </nav>
+        </div>
+        <div>
+            <a href="#" id="nav-configuracoes" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700">
+                <i data-lucide="settings" class="sidebar-icon h-6 w-6"></i>
+                <span class="ml-4 hidden md:block">Configurações</span>
+            </a>
+            <a href="#" class="nav-link flex items-center p-3 rounded-lg text-gray-300 hover:bg-gray-700 mt-2">
+                <img id="sidebar-logo" src="" alt="Logo da Locadora" class="w-10 h-10 rounded-full object-cover bg-gray-700">
+                <div class="ml-3 hidden md:block">
+                    <p id="sidebar-company-name" class="font-semibold">Locadora Exemplo</p>
+                    <p id="sidebar-plan" class="text-sm text-gray-400">Plano Pro</p>
+                </div>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-1 flex flex-col overflow-hidden">
+        <header class="flex justify-between items-center p-6 border-b border-gray-700">
+            <h1 id="page-title" class="text-3xl font-bold text-white">Dashboard</h1>
+            <div class="relative">
+                <button id="notification-bell" class="relative text-gray-400 hover:text-white">
+                    <i data-lucide="bell"></i>
+                    <span id="notification-indicator" class="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full border-2 border-gray-800 hidden"></span>
+                </button>
+                <div id="notification-panel" class="absolute right-0 mt-2 w-80 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-20 hidden">
+                    <div class="p-4 font-semibold border-b border-gray-700">Notificações</div>
+                    <div id="notification-list" class="max-h-96 overflow-y-auto">
+                        <!-- Notificações serão inseridas aqui -->
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex-1 p-6 lg:p-8 overflow-y-auto">
+            <!-- Seção Dashboard -->
+            <div id="page-dashboard" class="page">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                     <div class="bg-gray-800 p-6 rounded-lg">
+                        <div class="flex justify-between items-start">
+                            <h2 class="text-lg font-medium text-gray-300">Receita Total</h2>
+                            <span class="p-2 bg-teal-500/20 rounded-md"><i data-lucide="dollar-sign" class="text-teal-400"></i></span>
+                        </div>
+                        <p id="total-revenue" class="text-3xl font-bold mt-2">R$ 0,00</p>
+                        <p class="text-sm text-green-400 mt-1">+15% vs. mês passado</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg">
+                        <div class="flex justify-between items-start">
+                            <h2 class="text-lg font-medium text-gray-300">Aluguéis Ativos</h2>
+                            <span class="p-2 bg-sky-500/20 rounded-md"><i data-lucide="calendar-clock" class="text-sky-400"></i></span>
+                        </div>
+                        <p id="active-rentals" class="text-3xl font-bold mt-2">0</p>
+                        <p class="text-sm text-gray-400 mt-1">Mesas em uso agora</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg">
+                        <div class="flex justify-between items-start">
+                            <h2 class="text-lg font-medium text-gray-300">Mesas Disponíveis</h2>
+                             <span class="p-2 bg-emerald-500/20 rounded-md"><i data-lucide="dribbble" class="text-emerald-400"></i></span>
+                        </div>
+                        <p id="available-tables" class="text-3xl font-bold mt-2">0</p>
+                        <p class="text-sm text-gray-400 mt-1">Prontas para alugar</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg">
+                         <div class="flex justify-between items-start">
+                            <h2 class="text-lg font-medium text-gray-300">Novos Clientes</h2>
+                             <span class="p-2 bg-amber-500/20 rounded-md"><i data-lucide="user-plus" class="text-amber-400"></i></span>
+                        </div>
+                        <p id="new-clients" class="text-3xl font-bold mt-2">0</p>
+                        <p class="text-sm text-gray-400 mt-1">Este mês</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 bg-gray-800 p-6 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-4">Visão Geral da Receita</h2>
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-4">Desempenho das Mesas</h2>
+                        <canvas id="tablesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção Gerenciar Mesas -->
+            <div id="page-mesas" class="page hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-white">Todas as Mesas</h2>
+                    <button id="add-mesa-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+                        <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Adicionar Mesa
+                    </button>
+                </div>
+                <div id="mesas-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+            </div>
+            
+            <!-- Seção Aluguéis -->
+            <div id="page-alugueis" class="page hidden">
+                 <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-white">Histórico de Aluguéis</h2>
+                    <button id="add-aluguel-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+                        <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Novo Aluguel
+                    </button>
+                </div>
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Mesa</th><th class="p-4 font-semibold">Cliente</th><th class="p-4 font-semibold">Início</th><th class="p-4 font-semibold">Fim</th><th class="p-4 font-semibold">Valor</th><th class="p-4 font-semibold">Status</th><th class="p-4 font-semibold">Ações</th></tr></thead>
+                        <tbody id="alugueis-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Seção Clientes -->
+            <div id="page-clientes" class="page hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-white">Clientes</h2>
+                     <button id="add-cliente-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+                        <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Adicionar Cliente
+                    </button>
+                </div>
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                     <table class="w-full text-left">
+                        <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Nome</th><th class="p-4 font-semibold">Contato</th><th class="p-4 font-semibold">Desde</th><th class="p-4 font-semibold">Aluguéis</th><th class="p-4 font-semibold">Ações</th></tr></thead>
+                        <tbody id="clientes-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Seção Financeiro -->
+            <div id="page-financeiro" class="page hidden">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div class="bg-gray-800 p-6 rounded-lg"><h2 class="text-lg font-medium text-gray-300">Receita do Mês</h2><p id="monthly-revenue" class="text-3xl font-bold mt-2">R$ 0,00</p></div>
+                    <div class="bg-gray-800 p-6 rounded-lg"><h2 class="text-lg font-medium text-gray-300">Ticket Médio</h2><p id="average-ticket" class="text-3xl font-bold mt-2">R$ 0,00</p></div>
+                    <div class="bg-gray-800 p-6 rounded-lg"><h2 class="text-lg font-medium text-gray-300">Custos de Manutenção</h2><p id="maintenance-costs" class="text-3xl font-bold mt-2">R$ 0,00</p></div>
+                </div>
+                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-gray-800 p-6 rounded-lg"><h2 class="text-xl font-semibold mb-4">Faturamento por Dia</h2><canvas id="dailyRevenueChart"></canvas></div>
+                    <div class="bg-gray-800 p-6 rounded-lg"><h2 class="text-xl font-semibold mb-4">Receita por Mesa</h2><canvas id="revenueByTableChart"></canvas></div>
+                </div>
+                <h2 class="text-2xl font-bold text-white mb-4">Transações Recentes</h2>
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                     <table class="w-full text-left">
+                        <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Data</th><th class="p-4 font-semibold">Descrição</th><th class="p-4 font-semibold">Tipo</th><th class="p-4 font-semibold">Valor</th></tr></thead>
+                        <tbody id="transactions-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Seção Manutenção -->
+            <div id="page-manutencao" class="page hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-white">Controle de Manutenção</h2>
+                    <button id="add-manutencao-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+                        <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Agendar Manutenção
+                    </button>
+                </div>
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Mesa</th><th class="p-4 font-semibold">Serviço</th><th class="p-4 font-semibold">Data Agendada</th><th class="p-4 font-semibold">Custo</th><th class="p-4 font-semibold">Status</th><th class="p-4 font-semibold">Ações</th></tr></thead>
+                        <tbody id="manutencao-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Seção Inventário -->
+            <div id="page-inventario" class="page hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-white">Controle de Inventário</h2>
+                    <button id="add-produto-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+                        <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Adicionar Produto
+                    </button>
+                </div>
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                     <table class="w-full text-left">
+                        <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Produto</th><th class="p-4 font-semibold">Categoria</th><th class="p-4 font-semibold">Estoque</th><th class="p-4 font-semibold">Preço</th><th class="p-4 font-semibold">Ações</th></tr></thead>
+                        <tbody id="inventario-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Seção Funcionários -->
+            <div id="page-funcionarios" class="page hidden">
+                 <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-white">Gestão de Funcionários</h2>
+                    <button id="add-funcionario-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+                        <i data-lucide="plus" class="h-5 w-5 mr-2"></i> Adicionar Funcionário
+                    </button>
+                </div>
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                     <table class="w-full text-left">
+                        <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Nome</th><th class="p-4 font-semibold">Cargo</th><th class="p-4 font-semibold">Status</th><th class="p-4 font-semibold">Ações</th></tr></thead>
+                        <tbody id="funcionarios-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Seção Configurações -->
+            <div id="page-configuracoes" class="page hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Card de Perfil -->
+                    <div class="bg-gray-800 p-6 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-4">Perfil da Locadora</h2>
+                        <form id="profile-form" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300">Logo</label>
+                                <div class="mt-1 flex items-center space-x-4">
+                                    <img id="logo-preview" src="https://placehold.co/100x100/374151/f9fafb?text=Logo" alt="Pré-visualização do logo" class="h-16 w-16 rounded-full object-cover bg-gray-700">
+                                    <label for="logo-upload" class="cursor-pointer bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg">
+                                        <span>Alterar Foto</span>
+                                        <input id="logo-upload" name="logo-upload" type="file" class="sr-only" accept="image/png, image/jpeg, image/gif">
+                                    </label>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="company-name" class="block text-sm font-medium text-gray-300">Nome da Locadora</label>
+                                <input type="text" id="company-name" value="Locadora Exemplo" class="w-full bg-gray-700 border border-gray-600 rounded-md p-2 mt-1 text-white focus:ring-teal-500 focus:border-teal-500">
+                            </div>
+                            <div>
+                                <label for="company-contact" class="block text-sm font-medium text-gray-300">Contato Principal</label>
+                                <input type="text" id="company-contact" value="(99) 99999-9999" class="w-full bg-gray-700 border border-gray-600 rounded-md p-2 mt-1 text-white focus:ring-teal-500 focus:border-teal-500">
+                            </div>
+                            <div class="pt-2">
+                                 <button type="submit" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-6 rounded-lg">Salvar Perfil</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Card de Faturamento -->
+                    <div class="bg-gray-800 p-6 rounded-lg">
+                        <h2 class="text-xl font-semibold mb-4">Plano e Faturamento</h2>
+                        <div class="bg-gray-700 p-4 rounded-md">
+                            <p class="font-semibold">Plano Atual: <span id="settings-plan-name" class="text-teal-400">Pro</span></p>
+                            <p class="text-sm text-gray-400 mt-1">Sua próxima fatura será em 01/10/2025.</p>
+                        </div>
+                         <button id="manage-subscription-btn" class="mt-4 w-full bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-6 rounded-lg">Gerenciar Assinatura</button>
+                    </div>
+                </div>
+                <div class="mt-6 bg-gray-800 p-6 rounded-lg">
+                     <h2 class="text-xl font-semibold mb-4">Aparência</h2>
+                    <p class="text-gray-400 mb-4 text-sm">Escolha uma paleta de cores para personalizar a interface.</p>
+                    <div id="palette-options" class="flex flex-wrap gap-4"></div>
+                     <h3 class="text-lg font-semibold mt-6 mb-3 text-gray-200">Cores Personalizadas</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-2">
+                        <div>
+                            <label for="bg-color-picker" class="block text-sm font-medium text-gray-400 mb-1">Fundo</label>
+                            <input type="color" id="bg-color-picker" data-var="--background" class="color-picker-input w-full h-10 p-0 bg-transparent border border-gray-600 rounded-lg cursor-pointer">
+                        </div>
+                        <div>
+                            <label for="sidebar-color-picker" class="block text-sm font-medium text-gray-400 mb-1">Barra Lateral</label>
+                            <input type="color" id="sidebar-color-picker" data-var="--sidebar" class="color-picker-input w-full h-10 p-0 bg-transparent border border-gray-600 rounded-lg cursor-pointer">
+                        </div>
+                        <div>
+                            <label for="card-color-picker" class="block text-sm font-medium text-gray-400 mb-1">Cards</label>
+                            <input type="color" id="card-color-picker" data-var="--card" class="color-picker-input w-full h-10 p-0 bg-transparent border border-gray-600 rounded-lg cursor-pointer">
+                        </div>
+                        <div>
+                            <label for="accent-color-picker" class="block text-sm font-medium text-gray-400 mb-1">Destaque</label>
+                            <input type="color" id="accent-color-picker" data-var="--accent" class="color-picker-input w-full h-10 p-0 bg-transparent border border-gray-600 rounded-lg cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 bg-gray-800 p-6 rounded-lg">
+                    <h2 class="text-xl font-semibold mb-4">Notificações</h2>
+                    <div class="flex items-center justify-between">
+                        <p>Receber resumo diário por e-mail</p>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                          <input type="checkbox" value="" class="sr-only peer" checked>
+                          <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-600"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção Assinatura -->
+            <div id="page-assinatura" class="page hidden">
+                <div class="flex items-center mb-6">
+                    <button id="back-to-settings-btn" class="text-gray-400 hover:text-white mr-4 p-2 rounded-full hover:bg-gray-700">
+                        <i data-lucide="arrow-left" class="h-6 w-6"></i>
+                    </button>
+                    <h2 class="text-2xl font-bold text-white">Gerenciar Assinatura</h2>
+                </div>
+                <h3 class="text-xl font-semibold mb-4 text-gray-200">Escolha seu plano</h3>
+                <div id="planos-container" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"></div>
+                <h3 class="text-xl font-semibold mb-4 text-gray-200">Histórico de Faturamento</h3>
+                <div class="bg-gray-800 rounded-lg overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-700"><tr><th class="p-4 font-semibold">Data</th><th class="p-4 font-semibold">Descrição</th><th class="p-4 font-semibold">Valor</th><th class="p-4 font-semibold">Status</th></tr></thead>
+                        <tbody id="billing-history-body"></tbody>
+                    </table>
+                </div>
+                <div class="mt-8 bg-red-900/20 border border-red-500/30 p-6 rounded-lg">
+                    <h3 class="text-lg font-semibold text-red-300">Zona de Perigo</h3>
+                    <p class="text-red-400 mt-2 mb-4">Cancelar sua assinatura removerá o acesso a todos os recursos do plano Pro no final do seu ciclo de faturamento.</p>
+                    <button id="cancel-subscription-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg">Cancelar Assinatura</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Genérico -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 hidden">
+        <div id="modal-content" class="bg-gray-800 rounded-lg shadow-xl p-8 w-full max-w-md transform transition-all">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="modal-title" class="text-2xl font-bold text-white"></h2>
+                <button id="modal-close" class="text-gray-400 hover:text-white"><i data-lucide="x" class="h-6 w-6"></i></button>
+            </div>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- DADOS CENTRALIZADOS ---
+        const data = {
+            mesas: [ { id: 1, nome: 'Mesa Clássica', tipo: 'Bilhar', status: 'disponivel', localizacao: 'Salão Principal', precoHora: 25.00 }, { id: 2, nome: 'Pebolim Master', tipo: 'Pebolim', status: 'disponivel', localizacao: 'Área de Jogos', precoHora: 15.00 }, { id: 3, nome: 'Mesa Profissional', tipo: 'Bilhar', status: 'alugada', localizacao: 'Salão Principal', precoHora: 30.00 }, { id: 4, nome: 'Mesa Compacta', tipo: 'Bilhar', status: 'manutencao', localizacao: 'Depósito', precoHora: 20.00 }, ],
+            clientes: [ { id: 1, nome: 'Carlos Silva', contato: '(11) 98765-4321', desde: '2023-01-15' }, { id: 2, nome: 'Ana Pereira', contato: '(21) 91234-5678', desde: '2023-03-22' }, ],
+            alugueis: [ { id: 1, mesaId: 3, clienteId: 1, inicio: new Date('2025-09-26T09:00:00'), fim: null, valor: null, status: 'ativo' }, { id: 2, mesaId: 1, clienteId: 2, inicio: new Date('2025-09-25T14:00:00'), fim: new Date('2025-09-25T16:00:00'), valor: 50.00, status: 'finalizado' }, ],
+            manutencoes: [ { id: 1, mesaId: 4, servico: 'Troca de Pano', dataAgendada: '2025-09-28', custo: 150.00, status: 'agendada' } ],
+            inventario: [ { id: 1, nome: 'Giz Master Azul', categoria: 'Acessório', quantidade: 50, preco: 2.50 }, { id: 2, nome: 'Coca-Cola Lata', categoria: 'Bebida', quantidade: 8, preco: 5.00 }, { id: 3, nome: 'Taco de Sinuca', categoria: 'Equipamento', quantidade: 12, preco: 150.00 }],
+            funcionarios: [ {id: 1, nome: 'João da Silva', cargo: 'Gerente', status: 'ativo'}, {id: 2, nome: 'Maria Oliveira', cargo: 'Atendente', status: 'ativo'}],
+            notificacoes: [],
+            perfil: { nome: 'Locadora Exemplo', contato: '(99) 99999-9999', logoUrl: localStorage.getItem('sinucontrol_logo') || null },
+            planoAtual: 'pro',
+            planos: { basico: { id: 'basico', nome: 'Básico', preco: '19,90', ciclo: 'mês', features: ['Até 10 mesas', 'Relatórios básicos', 'Suporte por e-mail'] }, pro: { id: 'pro', nome: 'Pro', preco: '49,90', ciclo: 'mês', features: ['Mesas ilimitadas', 'Relatórios avançados', 'Controle de Manutenção', 'Suporte prioritário'] }, premium: { id: 'premium', nome: 'Premium', preco: '99,90', ciclo: 'mês', features: ['Tudo do Pro', 'Reservas online', 'Integrações', 'Gerente de conta dedicado'] } },
+            historicoFaturamento: [ { data: '2025-09-01', descricao: 'Fatura Mensal - Plano Pro', valor: 49.90, status: 'Pago' }, { data: '2025-08-01', descricao: 'Fatura Mensal - Plano Pro', valor: 49.90, status: 'Pago' } ],
+            nextIds: { mesa: 5, cliente: 3, aluguel: 3, manutencao: 2, produto: 4, funcionario: 3, notificacao: 1 }
+        };
+        
+        // --- ELEMENTOS DO DOM ---
+        const pageTitle = document.getElementById('page-title');
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const modal = document.getElementById('modal');
+        const modalContent = document.getElementById('modal-content');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+        const modalClose = document.getElementById('modal-close');
+
+        // --- NAVEGAÇÃO ---
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.id ? link.id.split('-')[1] : null;
+                if (!targetId) return;
+                const targetPage = document.getElementById(`page-${targetId}`);
+                if (targetPage) {
+                    pages.forEach(page => page.classList.add('hidden'));
+                    targetPage.classList.remove('hidden');
+                    navLinks.forEach(l => { if (l.id) l.classList.remove('active-link'); });
+                    link.classList.add('active-link');
+                    pageTitle.textContent = link.querySelector('span').textContent;
+                }
+            });
+        });
+        document.getElementById('manage-subscription-btn')?.addEventListener('click', () => showPage('assinatura'));
+        document.getElementById('back-to-settings-btn')?.addEventListener('click', () => showPage('configuracoes'));
+
+        function showPage(pageName) {
+            pages.forEach(page => page.classList.add('hidden'));
+            document.getElementById(`page-${pageName}`).classList.remove('hidden');
+            const navLink = document.getElementById(`nav-${pageName}`) || document.getElementById('nav-configuracoes');
+            pageTitle.textContent = navLink.querySelector('span')?.textContent || 'Gerenciar Assinatura';
+        }
+
+        // --- NOTIFICAÇÕES ---
+        const notificationBell = document.getElementById('notification-bell');
+        const notificationPanel = document.getElementById('notification-panel');
+        const notificationIndicator = document.getElementById('notification-indicator');
+        const notificationList = document.getElementById('notification-list');
+
+        function gerarNotificacao(texto, tipo = 'info') {
+            const novaNotificacao = { id: data.nextIds.notificacao++, texto, tipo, lida: false, data: new Date() };
+            data.notificacoes.unshift(novaNotificacao);
+            renderNotificacoes();
+        }
+
+        function renderNotificacoes() {
+            notificationList.innerHTML = '';
+            if (data.notificacoes.length === 0) {
+                notificationList.innerHTML = '<p class="p-4 text-sm text-gray-400">Nenhuma notificação nova.</p>';
+            } else {
+                data.notificacoes.forEach(n => {
+                    const icon = n.tipo === 'aviso' ? 'shield-alert' : 'info';
+                    const color = n.tipo === 'aviso' ? 'text-yellow-400' : 'text-sky-400';
+                    notificationList.innerHTML += `
+                        <div class="p-3 border-b border-gray-700 flex items-start hover:bg-gray-700/50">
+                            <i data-lucide="${icon}" class="w-5 h-5 mr-3 mt-1 ${color}"></i>
+                            <div>
+                                <p class="text-sm text-gray-200">${n.texto}</p>
+                                <p class="text-xs text-gray-500">${new Date(n.data).toLocaleString('pt-BR')}</p>
+                            </div>
+                        </div>`;
+                });
+            }
+            const unreadCount = data.notificacoes.filter(n => !n.lida).length;
+            notificationIndicator.classList.toggle('hidden', unreadCount === 0);
+            lucide.createIcons();
+        }
+
+        notificationBell.addEventListener('click', () => {
+            notificationPanel.classList.toggle('hidden');
+            if (!notificationPanel.classList.contains('hidden')) {
+                data.notificacoes.forEach(n => n.lida = true);
+                renderNotificacoes();
+            }
+        });
+        
+        // --- PALETAS DE CORES & CUSTOMIZAÇÃO ---
+        const palettes = { teal: { name: 'SinuControl Padrão', colors: { '--background': '#111827', '--sidebar': '#1f2937', '--card': '#374151', '--accent': '#14b8a6'}}, amethyst: { name: 'Ametista Noturna', colors: { '--background': '#1f1d2b', '--sidebar': '#262837', '--card': '#3a3c4e', '--accent': '#c792ea'}}, fire: { name: 'Vulcânico', colors: { '--background': '#1c1c1c', '--sidebar': '#282828', '--card': '#3c3836', '--accent': '#fb4934'}}, emerald: { name: 'Floresta Esmeralda', colors: { '--background': '#1a2421', '--sidebar': '#22302b', '--card': '#2f423a', '--accent': '#34d399'}}, sapphire: { name: 'Oceano Safira', colors: { '--background': '#161d2d', '--sidebar': '#1f2940', '--card': '#2b3956', '--accent': '#60a5fa'}} };
+        let currentPalette = 'teal';
+        function applyPalette(paletteName) { const palette = palettes[paletteName]; if (!palette) return; for (const [key, value] of Object.entries(palette.colors)) { document.documentElement.style.setProperty(key, value); } currentPalette = paletteName; renderPaletteOptions(); updateColorPickers(); }
+        function renderPaletteOptions() { const container = document.getElementById('palette-options'); if(!container) return; container.innerHTML = ''; for (const [key, palette] of Object.entries(palettes)) { const isActive = key === currentPalette; container.innerHTML += `<button data-palette="${key}" class="palette-btn text-left p-3 rounded-lg border-2 ${isActive ? 'active-palette' : 'border-gray-600'} bg-gray-700 hover:border-gray-500 w-48 transition-all"><div class="flex items-center"><div class="w-6 h-6 rounded-full" style="background-color: ${palette.colors['--accent']};"></div><span class="ml-3 font-medium text-sm">${palette.name}</span></div></button>`; } }
+        function updateColorPickers() { const rootStyles = getComputedStyle(document.documentElement); const getColorAsHex = (varName) => { const colorStr = rootStyles.getPropertyValue(varName).trim(); return colorStr; }; document.getElementById('bg-color-picker').value = getColorAsHex('--background'); document.getElementById('sidebar-color-picker').value = getColorAsHex('--sidebar'); document.getElementById('card-color-picker').value = getColorAsHex('--card'); document.getElementById('accent-color-picker').value = getColorAsHex('--accent'); }
+        document.querySelectorAll('.color-picker-input').forEach(picker => { picker.addEventListener('input', (e) => { document.documentElement.style.setProperty(e.target.dataset.var, e.target.value); currentPalette = 'custom'; renderPaletteOptions(); }); });
+
+        // --- RENDERIZAÇÃO GERAL ---
+        function renderAll() {
+            renderMesas(); renderAlugueis(); renderClientes(); renderManutencoes(); renderInventario(); renderFuncionarios();
+            updateDashboard(); renderFinanceiro(); renderAssinatura(); updatePlanDisplay(); updateProfileDisplay();
+            renderPaletteOptions(); updateColorPickers(); renderNotificacoes();
+            lucide.createIcons();
+        }
+
+        // --- RENDERIZAÇÃO DE PÁGINAS ---
+        function renderMesas() { const grid = document.getElementById('mesas-grid'); grid.innerHTML = data.mesas.map(mesa => { const status = getStatusInfo(mesa.status); return `<div class="bg-gray-800 rounded-lg p-5 flex flex-col justify-between shadow-lg hover:shadow-teal-500/20 transition-shadow"><div><div class="flex justify-between items-center mb-2"><h3 class="text-xl font-bold">${mesa.nome}</h3><span class="text-xs font-semibold px-2 py-1 rounded-full ${status.bg} ${status.text}">${status.label}</span></div><p class="text-gray-400 text-sm mb-1">${mesa.tipo} - ${mesa.localizacao}</p><p class="text-teal-400 font-semibold text-lg">R$ ${mesa.precoHora.toFixed(2)} / hora</p></div><div class="mt-4 flex space-x-2"><button class="edit-btn w-full bg-gray-700 hover:bg-gray-600 text-sm font-semibold py-2 px-3 rounded-md" data-type="mesa" data-id="${mesa.id}">Editar</button><button class="delete-btn w-full bg-red-800 hover:bg-red-700 text-sm font-semibold py-2 px-3 rounded-md" data-type="mesa" data-id="${mesa.id}">Excluir</button></div></div>`; }).join(''); }
+        function renderAlugueis() { const tbody = document.getElementById('alugueis-table-body'); tbody.innerHTML = data.alugueis.slice().reverse().map(aluguel => { const mesa = data.mesas.find(m => m.id === aluguel.mesaId); const cliente = data.clientes.find(c => c.id === aluguel.clienteId); const status = getAluguelStatusInfo(aluguel.status); return `<tr class="border-b border-gray-700 hover:bg-gray-700/50"><td class="p-4">${mesa?.nome}</td><td class="p-4">${cliente?.nome}</td><td class="p-4">${new Date(aluguel.inicio).toLocaleString('pt-BR')}</td><td class="p-4">${aluguel.fim ? new Date(aluguel.fim).toLocaleString('pt-BR') : 'Em andamento'}</td><td class="p-4">${aluguel.valor ? `R$ ${aluguel.valor.toFixed(2)}` : '-'}</td><td class="p-4"><span class="text-xs font-semibold px-2 py-1 rounded-full ${status.bg} ${status.text}">${status.label}</span></td><td class="p-4">${aluguel.status === 'ativo' ? `<button class="end-aluguel-btn bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-1 px-3 rounded-md" data-id="${aluguel.id}">Finalizar</button>` : ''}</td></tr>`; }).join(''); }
+        function renderClientes() { const tbody = document.getElementById('clientes-table-body'); tbody.innerHTML = data.clientes.map(cliente => { const totalAlugueis = data.alugueis.filter(a => a.clienteId === cliente.id).length; return `<tr class="border-b border-gray-700 hover:bg-gray-700/50"><td class="p-4">${cliente.nome}</td><td class="p-4">${cliente.contato}</td><td class="p-4">${new Date(cliente.desde).toLocaleDateString('pt-BR')}</td><td class="p-4">${totalAlugueis}</td><td class="p-4 flex space-x-2"><button class="edit-btn bg-gray-700 hover:bg-gray-600 text-xs font-semibold py-1 px-3 rounded-md" data-type="cliente" data-id="${cliente.id}">Editar</button><button class="delete-btn bg-red-800 hover:bg-red-700 text-xs font-semibold py-1 px-3 rounded-md" data-type="cliente" data-id="${cliente.id}">Excluir</button></td></tr>`; }).join(''); }
+        function renderManutencoes() { const tbody = document.getElementById('manutencao-table-body'); tbody.innerHTML = data.manutencoes.map(manutencao => { const mesa = data.mesas.find(m => m.id === manutencao.mesaId); const status = getManutencaoStatusInfo(manutencao.status); return `<tr class="border-b border-gray-700 hover:bg-gray-700/50"><td class="p-4">${mesa?.nome}</td><td class="p-4">${manutencao.servico}</td><td class="p-4">${new Date(manutencao.dataAgendada + 'T00:00:00').toLocaleDateString('pt-BR')}</td><td class="p-4">${manutencao.custo ? `R$ ${manutencao.custo.toFixed(2)}` : 'A definir'}</td><td class="p-4"><span class="text-xs font-semibold px-2 py-1 rounded-full ${status.bg} ${status.text}">${status.label}</span></td><td class="p-4 flex space-x-2">${manutencao.status === 'agendada' ? `<button class="complete-manutencao-btn bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-1 px-3 rounded-md" data-id="${manutencao.id}">Concluir</button>` : ''}<button class="delete-btn bg-red-800 hover:bg-red-700 text-xs font-semibold py-1 px-3 rounded-md" data-type="manutencao" data-id="${manutencao.id}">Excluir</button></td></tr>`; }).join(''); }
+        function renderInventario() { const tbody = document.getElementById('inventario-table-body'); tbody.innerHTML = data.inventario.map(item => { const lowStock = item.quantidade < 10; return `<tr class="border-b border-gray-700 hover:bg-gray-700/50"><td class="p-4">${item.nome}</td><td class="p-4">${item.categoria}</td><td class="p-4 ${lowStock ? 'text-yellow-400 font-bold' : ''}">${item.quantidade}${lowStock ? ' (Baixo!)' : ''}</td><td class="p-4">R$ ${item.preco.toFixed(2)}</td><td class="p-4 flex space-x-2"><button class="edit-btn bg-gray-700 hover:bg-gray-600 text-xs font-semibold py-1 px-3 rounded-md" data-type="produto" data-id="${item.id}">Editar</button><button class="delete-btn bg-red-800 hover:bg-red-700 text-xs font-semibold py-1 px-3 rounded-md" data-type="produto" data-id="${item.id}">Excluir</button></td></tr>`; }).join(''); }
+        function renderFuncionarios() { const tbody = document.getElementById('funcionarios-table-body'); tbody.innerHTML = data.funcionarios.map(func => { const status = func.status === 'ativo' ? { bg: 'bg-green-500/20', text: 'text-green-400', label: 'Ativo' } : { bg: 'bg-gray-500/20', text: 'text-gray-400', label: 'Inativo' }; return `<tr class="border-b border-gray-700 hover:bg-gray-700/50"><td class="p-4">${func.nome}</td><td class="p-4">${func.cargo}</td><td class="p-4"><span class="text-xs font-semibold px-2 py-1 rounded-full ${status.bg} ${status.text}">${status.label}</span></td><td class="p-4 flex space-x-2"><button class="edit-btn bg-gray-700 hover:bg-gray-600 text-xs font-semibold py-1 px-3 rounded-md" data-type="funcionario" data-id="${func.id}">Editar</button></td></tr>`; }).join(''); }
+        
+        // --- DASHBOARD & FINANCEIRO ---
+        let chartInstances = {};
+        function updateDashboard() { const finishedRentals = data.alugueis.filter(a => a.status === 'finalizado'); document.getElementById('total-revenue').textContent = `R$ ${finishedRentals.reduce((sum, a) => sum + (a.valor || 0), 0).toFixed(2)}`; document.getElementById('active-rentals').textContent = data.alugueis.filter(a => a.status === 'ativo').length; document.getElementById('available-tables').textContent = data.mesas.filter(m => m.status === 'disponivel').length; document.getElementById('new-clients').textContent = data.clientes.length; createChart('revenueChart', 'line', { labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'], datasets: [{ label: 'Receita', data: [1200, 1900, 3000, 5000, 2300, 3100, 4200], backgroundColor: 'rgba(20, 184, 166, 0.2)', borderColor: 'rgba(20, 184, 166, 1)', tension: 0.4, fill: true }] }); createChart('tablesChart', 'doughnut', { labels: ['Bilhar', 'Pebolim'], datasets: [{ data: [data.mesas.filter(m=>m.tipo==='Bilhar').length, data.mesas.filter(m=>m.tipo==='Pebolim').length], backgroundColor: ['rgba(20, 184, 166, 0.8)', 'rgba(14, 165, 233, 0.8)'], borderColor: 'transparent' }] }); }
+        function renderFinanceiro() { const finishedRentals = data.alugueis.filter(a => a.status === 'finalizado'); const monthlyRevenue = finishedRentals.reduce((sum, a) => sum + (a.valor || 0), 0); const maintenanceCosts = data.manutencoes.reduce((sum, m) => sum + (m.custo || 0), 0); const averageTicket = finishedRentals.length > 0 ? monthlyRevenue / finishedRentals.length : 0; document.getElementById('monthly-revenue').textContent = `R$ ${monthlyRevenue.toFixed(2)}`; document.getElementById('maintenance-costs').textContent = `R$ ${maintenanceCosts.toFixed(2)}`; document.getElementById('average-ticket').textContent = `R$ ${averageTicket.toFixed(2)}`; createChart('dailyRevenueChart', 'bar', { labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'], datasets: [{ label: 'Faturamento', data: [650, 590, 800, 810, 560, 1550, 1200], backgroundColor: 'rgba(20, 184, 166, 0.8)' }] }); const revenueByTable = data.mesas.map(m => data.alugueis.filter(a => a.mesaId === m.id && a.valor).reduce((sum, a) => sum + a.valor, 0)); createChart('revenueByTableChart', 'pie', { labels: data.mesas.map(m => m.nome), datasets: [{ data: revenueByTable, backgroundColor: ['#14b8a6', '#0ea5e9', '#8b5cf6', '#f97316', '#eab308'] }] }); const transactions = [...finishedRentals.map(a => ({ date: a.fim, desc: `Aluguel ${data.mesas.find(m=>m.id===a.mesaId)?.nome}`, type: 'Receita', value: a.valor })), ...data.manutencoes.map(m => ({ date: new Date(m.dataAgendada), desc: m.servico, type: 'Custo', value: -m.custo }))].sort((a, b) => b.date - a.date); document.getElementById('transactions-table-body').innerHTML = transactions.map(t => `<tr><td class="p-4">${new Date(t.date).toLocaleDateString('pt-BR')}</td><td class="p-4">${t.desc}</td><td class="p-4 ${t.type === 'Receita' ? 'text-green-400' : 'text-red-400'}">${t.type}</td><td class="p-4">${t.value.toFixed(2)}</td></tr>`).join(''); }
+        function createChart(canvasId, type, chartData) { const ctx = document.getElementById(canvasId)?.getContext('2d'); if (!ctx) return; if (chartInstances[canvasId]) chartInstances[canvasId].destroy(); const options = { responsive: true, maintainAspectRatio: false, scales: type === 'line' || type === 'bar' ? { y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' } }, x: { grid: { color: 'rgba(255,255,255,0.1)' } } } : {}, plugins: { legend: { labels: { color: '#d1d5db' } } } }; chartInstances[canvasId] = new Chart(ctx, { type, data: chartData, options }); }
+
+        // --- ASSINATURA & PERFIL ---
+        function renderAssinatura() { const container = document.getElementById('planos-container'); container.innerHTML = Object.values(data.planos).map(plano => { const isCurrent = plano.id === data.planoAtual; return `<div class="rounded-lg p-6 border-2 ${isCurrent ? 'border-teal-500 bg-gray-800' : 'border-gray-700 bg-gray-700/50'} flex flex-col"><div class="flex justify-between items-center"><h3 class="text-xl font-bold ${isCurrent ? 'text-teal-400' : 'text-white'}">${plano.nome}</h3>${isCurrent ? '<span class="text-xs font-semibold px-2 py-1 rounded-full bg-teal-500/20 text-teal-400">Plano Atual</span>' : ''}</div><p class="text-3xl font-bold mt-4">R$ ${plano.preco}<span class="text-base font-medium text-gray-400">/${plano.ciclo}</span></p><ul class="mt-6 space-y-2 text-gray-300 flex-grow">${plano.features.map(f => `<li class="flex items-center"><i data-lucide="check" class="h-4 w-4 mr-2 text-green-400"></i>${f}</li>`).join('')}</ul><button class="change-plan-btn w-full mt-6 py-2 px-4 rounded-lg font-semibold ${isCurrent ? 'bg-gray-600 text-gray-400 cursor-not-allowed' : 'bg-teal-500 hover:bg-teal-600 text-white'}" data-plan-id="${plano.id}" ${isCurrent ? 'disabled' : ''}>${isCurrent ? 'Seu Plano Atual' : 'Mudar para ' + plano.nome}</button></div>`; }).join(''); document.getElementById('billing-history-body').innerHTML = data.historicoFaturamento.map(item => `<tr><td class="p-4">${item.data}</td><td class="p-4">${item.descricao}</td><td class="p-4">R$ ${item.valor.toFixed(2)}</td><td class="p-4 text-green-400">${item.status}</td></tr>`).join(''); }
+        function updatePlanDisplay() { const plano = data.planos[data.planoAtual]; if (plano) { document.getElementById('sidebar-plan').textContent = `Plano ${plano.nome}`; document.getElementById('settings-plan-name').textContent = plano.nome; } }
+        function updateProfileDisplay() { document.getElementById('company-name').value = data.perfil.nome; document.getElementById('sidebar-company-name').textContent = data.perfil.nome; document.getElementById('company-contact').value = data.perfil.contato; const defaultLogo = 'https://placehold.co/100x100/14b8a6/ffffff?text=L'; const displayUrl = data.perfil.logoUrl || defaultLogo; document.getElementById('logo-preview').src = displayUrl; document.getElementById('sidebar-logo').src = displayUrl; }
+        document.getElementById('logo-upload')?.addEventListener('change', (e) => { const file = e.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = (event) => { data.perfil.logoUrl = event.target.result; localStorage.setItem('sinucontrol_logo', data.perfil.logoUrl); updateProfileDisplay(); }; reader.readAsDataURL(file); } });
+        document.getElementById('profile-form')?.addEventListener('submit', (e) => { e.preventDefault(); data.perfil.nome = document.getElementById('company-name').value; data.perfil.contato = document.getElementById('company-contact').value; updateProfileDisplay(); });
+
+        // --- MODAL & FORMULÁRIOS ---
+        function openModal(title, body) { modalTitle.textContent = title; modalBody.innerHTML = body; modal.classList.remove('hidden'); lucide.createIcons(); }
+        function closeModal() { modal.classList.add('hidden'); modalBody.innerHTML = ''; }
+        modalClose.addEventListener('click', closeModal); modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        
+        function showForm(type, entity = {}) {
+            const isEditing = !!entity.id;
+            let title, formHTML;
+            switch(type) {
+                case 'mesa': title = isEditing ? 'Editar Mesa' : 'Adicionar Mesa'; formHTML = `<form id="entity-form" data-type="mesa" data-id="${entity.id||''}"><div class="space-y-4"><div><label>Nome</label><input id="nome" value="${entity.nome||''}" required></div><div class="grid grid-cols-2 gap-4"><div><label>Tipo</label><select id="tipo"><option value="Bilhar" ${entity.tipo==='Bilhar'?'selected':''}>Bilhar</option><option value="Pebolim" ${entity.tipo==='Pebolim'?'selected':''}>Pebolim</option></select></div><div><label>Preço/Hora</label><input id="precoHora" type="number" value="${entity.precoHora||''}" required></div></div><div><label>Localização</label><input id="localizacao" value="${entity.localizacao||''}" required></div><div><label>Status</label><select id="status"><option value="disponivel" ${entity.status==='disponivel'?'selected':''}>Disponível</option><option value="alugada" ${entity.status==='alugada'?'selected':''}>Alugada</option><option value="manutencao" ${entity.status==='manutencao'?'selected':''}>Manutenção</option></select></div></div><button type="submit">Salvar</button></form>`; break;
+                case 'cliente': title = isEditing ? 'Editar Cliente' : 'Adicionar Cliente'; formHTML = `<form id="entity-form" data-type="cliente" data-id="${entity.id||''}"><div class="space-y-4"><div><label>Nome</label><input id="nome" value="${entity.nome||''}" required></div><div><label>Contato</label><input id="contato" value="${entity.contato||''}" required></div></div><button type="submit">Salvar</button></form>`; break;
+                case 'aluguel': title = 'Novo Aluguel'; const mesasOpt = data.mesas.filter(m => m.status === 'disponivel').map(m => `<option value="${m.id}">${m.nome}</option>`).join(''); const clientesOpt = data.clientes.map(c => `<option value="${c.id}">${c.nome}</option>`).join(''); formHTML = `<form id="entity-form" data-type="aluguel"><div class="space-y-4"><div><label>Mesa</label><select id="mesaId" ${!mesasOpt?'disabled':''}>${mesasOpt||'<option>Nenhuma mesa disponível</option>'}</select></div><div><label>Cliente</label><select id="clienteId">${clientesOpt}</select></div></div><button type="submit" ${!mesasOpt?'disabled':''}>Iniciar Aluguel</button></form>`; break;
+                case 'manutencao': title = 'Agendar Manutenção'; const allMesasOpt = data.mesas.map(m => `<option value="${m.id}">${m.nome}</option>`).join(''); formHTML = `<form id="entity-form" data-type="manutencao"><div class="space-y-4"><div><label>Mesa</label><select id="mesaId">${allMesasOpt}</select></div><div><label>Serviço</label><input id="servico" required></div><div class="grid grid-cols-2 gap-4"><div><label>Data</label><input id="dataAgendada" type="date" required></div><div><label>Custo</label><input id="custo" type="number"></div></div></div><button type="submit">Agendar</button></form>`; break;
+                case 'produto': title = isEditing ? 'Editar Produto' : 'Adicionar Produto'; formHTML = `<form id="entity-form" data-type="produto" data-id="${entity.id||''}"><div class="space-y-4"><div><label>Nome</label><input id="nome" value="${entity.nome||''}" required></div><div><label>Categoria</label><input id="categoria" value="${entity.categoria||''}"></div><div class="grid grid-cols-2 gap-4"><div><label>Estoque</label><input id="quantidade" type="number" value="${entity.quantidade||''}" required></div><div><label>Preço</label><input id="preco" type="number" value="${entity.preco||''}" required></div></div></div><button type="submit">Salvar</button></form>`; break;
+                case 'funcionario': title = isEditing ? 'Editar Funcionário' : 'Adicionar Funcionário'; formHTML = `<form id="entity-form" data-type="funcionario" data-id="${entity.id||''}"><div class="space-y-4"><div><label>Nome</label><input id="nome" value="${entity.nome||''}" required></div><div><label>Cargo</label><select id="cargo"><option value="Atendente" ${entity.cargo==='Atendente'?'selected':''}>Atendente</option><option value="Gerente" ${entity.cargo==='Gerente'?'selected':''}>Gerente</option></select></div></div><button type="submit">Salvar</button></form>`; break;
+            }
+            const styledFormHTML = formHTML
+                .replace(/<label>/g, '<label class="block text-sm font-medium text-gray-300">')
+                .replace(/<input/g, '<input class="w-full bg-gray-700 border border-gray-600 rounded-md p-2 mt-1 text-white focus:ring-teal-500 focus:border-teal-500"')
+                .replace(/<select/g, '<select class="w-full bg-gray-700 border border-gray-600 rounded-md p-2 mt-1 text-white focus:ring-teal-500 focus:border-teal-500"')
+                .replace(/<button type="submit"/g, '<div class="mt-6 flex justify-end"><button type="submit" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-6 rounded-lg"')
+                .replace(/<\/form>/, '</div></form>');
+            openModal(title, styledFormHTML);
+            document.getElementById('entity-form').addEventListener('submit', handleFormSubmit);
+        }
+
+        // --- HANDLERS ---
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const type = e.target.dataset.type;
+            const id = e.target.dataset.id ? parseInt(e.target.dataset.id) : null;
+            let newData, targetArray;
+            switch(type) {
+                case 'mesa': newData = { nome: $('#nome').value, tipo: $('#tipo').value, precoHora: parseFloat($('#precoHora').value), localizacao: $('#localizacao').value, status: $('#status').value }; targetArray = data.mesas; break;
+                case 'cliente': newData = { nome: $('#nome').value, contato: $('#contato').value, desde: new Date().toISOString().split('T')[0] }; targetArray = data.clientes; break;
+                case 'aluguel': newData = { mesaId: parseInt($('#mesaId').value), clienteId: parseInt($('#clienteId').value), inicio: new Date(), fim: null, valor: null, status: 'ativo' }; targetArray = data.alugueis; data.mesas.find(m=>m.id===newData.mesaId).status = 'alugada'; break;
+                case 'manutencao': newData = { mesaId: parseInt($('#mesaId').value), servico: $('#servico').value, dataAgendada: $('#dataAgendada').value, custo: parseFloat($('#custo').value) || 0, status: 'agendada' }; targetArray = data.manutencoes; data.mesas.find(m=>m.id===newData.mesaId).status = 'manutencao'; gerarNotificacao(`Manutenção agendada para ${data.mesas.find(m=>m.id===newData.mesaId).nome}.`, 'info'); break;
+                case 'produto': newData = { nome: $('#nome').value, categoria: $('#categoria').value, quantidade: parseInt($('#quantidade').value), preco: parseFloat($('#preco').value) }; targetArray = data.inventario; if (newData.quantidade < 10) gerarNotificacao(`Estoque de "${newData.nome}" está baixo.`, 'aviso'); break;
+                case 'funcionario': newData = { nome: $('#nome').value, cargo: $('#cargo').value, status: 'ativo' }; targetArray = data.funcionarios; break;
+            }
+            if (id) {
+                const index = targetArray.findIndex(item => item.id === id);
+                targetArray[index] = { ...targetArray[index], ...newData };
+            } else {
+                newData.id = data.nextIds[type]++;
+                targetArray.push(newData);
+            }
+            closeModal();
+            renderAll();
+        }
+
+        document.body.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            
+            // Corrigido: Adiciona o handler para os botões de paleta
+            if (btn.classList.contains('palette-btn')) {
+                applyPalette(btn.dataset.palette);
+                return;
+            }
+
+            const { type, id } = btn.dataset;
+            
+            const getArrayNameFromType = (type) => {
+                const map = { mesa: 'mesas', cliente: 'clientes', manutencao: 'manutencoes', produto: 'inventario', funcionario: 'funcionarios' };
+                return map[type] || null;
+            };
+
+            // Botões de Adicionar
+            if (btn.id === 'add-mesa-btn') showForm('mesa');
+            if (btn.id === 'add-aluguel-btn') showForm('aluguel');
+            if (btn.id === 'add-cliente-btn') showForm('cliente');
+            if (btn.id === 'add-manutencao-btn') showForm('manutencao');
+            if (btn.id === 'add-produto-btn') showForm('produto');
+            if (btn.id === 'add-funcionario-btn') showForm('funcionario');
+            
+            // Botões de Ação
+            if (btn.classList.contains('edit-btn')) { 
+                const arrayName = getArrayNameFromType(type);
+                if (arrayName) {
+                    const entity = data[arrayName].find(i => i.id == id);
+                    showForm(type, entity);
+                }
+            }
+            if (btn.classList.contains('delete-btn')) { 
+                if (confirm(`Tem certeza que deseja excluir este item?`)) { 
+                    const arrayName = getArrayNameFromType(type);
+                    if (arrayName) {
+                        data[arrayName] = data[arrayName].filter(i => i.id != id);
+                        renderAll();
+                    }
+                }
+            }
+            if (btn.classList.contains('end-aluguel-btn')) { const aluguel = data.alugueis.find(a => a.id == id); if (aluguel) { aluguel.fim = new Date(); aluguel.status = 'finalizado'; const mesa = data.mesas.find(m => m.id === aluguel.mesaId); aluguel.valor = ((aluguel.fim - aluguel.inicio) / 3600000) * mesa.precoHora; mesa.status = 'disponivel'; renderAll(); } }
+            if (btn.classList.contains('complete-manutencao-btn')) { const manutencao = data.manutencoes.find(m => m.id == id); if (manutencao) { manutencao.status = 'concluida'; const mesa = data.mesas.find(m => m.id === manutencao.mesaId); if (mesa && !data.manutencoes.some(m => m.mesaId === mesa.id && m.status === 'agendada')) { mesa.status = 'disponivel'; } renderAll(); } }
+            if (btn.classList.contains('change-plan-btn')) { data.planoAtual = btn.dataset.planId; renderAll(); }
+            if (btn.id === 'cancel-subscription-btn') { showConfirmationModal('Confirmar Cancelamento', 'Tem certeza que deseja cancelar sua assinatura?', () => alert('Assinatura cancelada.')); }
+        });
+        
+        // --- HELPERS ---
+        const $ = (selector) => document.querySelector(selector);
+        function getStatusInfo(s) { switch (s) { case 'disponivel': return { label: 'Disponível', bg: 'bg-green-500/20', text: 'text-green-400' }; case 'alugada': return { label: 'Alugada', bg: 'bg-yellow-500/20', text: 'text-yellow-400' }; case 'manutencao': return { label: 'Manutenção', bg: 'bg-red-500/20', text: 'text-red-400' }; default: return { label: 'N/A', bg: 'bg-gray-500/20', text: 'text-gray-400' }; } }
+        function getAluguelStatusInfo(s) { switch (s) { case 'ativo': return { label: 'Ativo', bg: 'bg-sky-500/20', text: 'text-sky-400' }; case 'finalizado': return { label: 'Finalizado', bg: 'bg-gray-500/20', text: 'text-gray-400' }; default: return { label: 'N/A', bg: 'bg-gray-500/20', text: 'text-gray-400' }; } }
+        function getManutencaoStatusInfo(s) { switch (s) { case 'agendada': return { label: 'Agendada', bg: 'bg-blue-500/20', text: 'text-blue-400' }; case 'concluida': return { label: 'Concluída', bg: 'bg-gray-500/20', text: 'text-gray-400' }; default: return { label: 'N/A', bg: 'bg-gray-500/20', text: 'text-gray-400' }; } }
+        function showConfirmationModal(title, message, onConfirm) { const body = `<p class="text-gray-300 mb-6">${message}</p><div class="flex justify-end space-x-4"><button id="confirm-cancel" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-6 rounded-lg">Voltar</button><button id="confirm-ok" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg">Confirmar</button></div>`; openModal(title, body); $('#confirm-ok').onclick = () => { onConfirm(); closeModal(); }; $('#confirm-cancel').onclick = closeModal; }
+        
+        // --- INICIALIZAÇÃO ---
+        renderAll();
+    });
+    </script>
+</body>
+</html>
+
