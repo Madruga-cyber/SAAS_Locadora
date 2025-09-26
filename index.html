@@ -523,10 +523,23 @@
 
             const perfilRef = doc(db, `users/${userId}/config/perfil`);
             const unsubPerfil = onSnapshot(perfilRef, (doc) => {
+                const defaultTheme = { palette: 'teal', colors: palettes.teal.colors };
                 if (doc.exists()) {
-                    data.perfil = { ...data.perfil, ...doc.data() };
+                    const remoteProfile = doc.data();
+                    data.perfil = { ...data.perfil, ...remoteProfile }; 
+                    
+                    if (remoteProfile.theme && remoteProfile.theme.colors) {
+                        applyCustomColors(remoteProfile.theme.colors);
+                        currentPalette = remoteProfile.theme.palette || 'custom';
+                    } else {
+                        applyCustomColors(defaultTheme.colors);
+                        currentPalette = 'teal';
+                    }
                 } else {
+                    data.perfil.theme = defaultTheme;
                     setDoc(perfilRef, data.perfil);
+                    applyCustomColors(defaultTheme.colors);
+                    currentPalette = 'teal';
                 }
                 renderAll();
             }, error => console.error("Erro ao ouvir perfil:", error));
@@ -636,10 +649,49 @@
             sapphire: { name: 'Oceano Safira', colors: { '--background': '#161d2d', '--sidebar': '#1f2940', '--card': '#2b3956', '--accent': '#60a5fa', '--accent-hover': '#438cf0'}} 
         };
         let currentPalette = 'teal';
-        function applyPalette(paletteName) { const palette = palettes[paletteName]; if (!palette) return; for (const [key, value] of Object.entries(palette.colors)) { document.documentElement.style.setProperty(key, value); } currentPalette = paletteName; renderPaletteOptions(); updateColorPickers(); renderAll(); }
+        function applyCustomColors(colors) {
+            if (!colors) return;
+            for (const [key, value] of Object.entries(colors)) {
+                document.documentElement.style.setProperty(key, value);
+            }
+        }
+        async function applyPalette(paletteName) {
+            const palette = palettes[paletteName];
+            if (!palette) return;
+            applyCustomColors(palette.colors);
+            currentPalette = paletteName;
+
+            if (userId) {
+                const theme = { palette: paletteName, colors: palette.colors };
+                await setDoc(doc(db, `users/${userId}/config/perfil`), { theme }, { merge: true });
+            }
+            renderPaletteOptions();
+            updateColorPickers();
+            renderAll();
+        }
         function renderPaletteOptions() { const container = document.getElementById('palette-options'); if(!container) return; container.innerHTML = ''; for (const [key, palette] of Object.entries(palettes)) { const isActive = key === currentPalette; container.innerHTML += `<button data-palette="${key}" class="palette-btn text-left p-3 rounded-lg border-2 ${isActive ? 'active-palette' : 'border-gray-600'} bg-gray-700 hover:border-gray-500 w-48 transition-all"><div class="flex items-center"><div class="w-6 h-6 rounded-full" style="background-color: ${palette.colors['--accent']};"></div><span class="ml-3 font-medium text-sm">${palette.name}</span></div></button>`; } }
         function updateColorPickers() { const rootStyles = getComputedStyle(document.documentElement); const getColorAsHex = (varName) => { const colorStr = rootStyles.getPropertyValue(varName).trim(); return colorStr; }; document.getElementById('bg-color-picker').value = getColorAsHex('--background'); document.getElementById('sidebar-color-picker').value = getColorAsHex('--sidebar'); document.getElementById('card-color-picker').value = getColorAsHex('--card'); document.getElementById('accent-color-picker').value = getColorAsHex('--accent'); }
-        document.querySelectorAll('.color-picker-input').forEach(picker => { picker.addEventListener('input', (e) => { document.documentElement.style.setProperty(e.target.dataset.var, e.target.value); currentPalette = 'custom'; renderPaletteOptions(); renderAll(); }); });
+        
+        document.querySelectorAll('.color-picker-input').forEach(picker => {
+            picker.addEventListener('input', async (e) => {
+                const variable = e.target.dataset.var;
+                const color = e.target.value;
+                document.documentElement.style.setProperty(variable, color);
+                currentPalette = 'custom';
+
+                if (userId) {
+                    if (!data.perfil.theme) {
+                        data.perfil.theme = { palette: 'custom', colors: palettes.teal.colors };
+                    }
+                    data.perfil.theme.palette = 'custom';
+                    data.perfil.theme.colors[variable] = color;
+                    
+                    await setDoc(doc(db, `users/${userId}/config/perfil`), { theme: data.perfil.theme }, { merge: true });
+                }
+                renderPaletteOptions();
+                renderAll();
+            });
+        });
 
         // --- RENDERIZAÇÃO GERAL ---
         function renderAll() {
@@ -965,7 +1017,10 @@
             const btn = e.target.closest('button');
             if (!btn) return;
             
-            if (btn.classList.contains('palette-btn')) { applyPalette(btn.dataset.palette); return; }
+            if (btn.classList.contains('palette-btn')) {
+                await applyPalette(btn.dataset.palette);
+                return;
+            }
 
             const { type, id } = btn.dataset;
             
